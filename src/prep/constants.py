@@ -13,6 +13,15 @@ DATA_XES = ROOT / "data" / "Sepsis_Cases_-_Event_Log.xes"
 CONFIG_DIR = ROOT / "config"
 OUTPUTS_DIR = ROOT / "outputs"
 
+
+def rel(path) -> str:
+    """Repository-relative POSIX path for anything written to results.json
+    (keeps outputs portable and free of local machine paths)."""
+    try:
+        return Path(path).resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return Path(path).as_posix()
+
 # --- XES column names -------------------------------------------------------
 CASE = "case:concept:name"
 ACT = "concept:name"

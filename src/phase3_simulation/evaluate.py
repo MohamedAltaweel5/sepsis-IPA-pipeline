@@ -432,12 +432,12 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
         "baseline_tta_mean_h": round(base_mean_tta, 4),
         "baseline_ct_median_h": round(base_cyc_med, 4),
         "baseline_ct_mean_h": round(base_cyc, 4),
-        "tta_median_reduction_pct": round(tta_med_red, 2),
-        "ct_median_reduction_pct": round(ct_med_red, 2),
-        "gap_median_pp": round(tta_med_red - ct_med_red, 2),
-        "tta_mean_reduction_pct": round(tta_mean_red, 2),
-        "ct_mean_reduction_pct": round(ct_mean_red, 2),
-        "gap_mean_pp": round(tta_mean_red - ct_mean_red, 2),
+        "tta_median_reduction_pct": round(tta_med_red, 4),
+        "ct_median_reduction_pct": round(ct_med_red, 4),
+        "gap_median_pp": round(tta_med_red - ct_med_red, 4),
+        "tta_mean_reduction_pct": round(tta_mean_red, 4),
+        "ct_mean_reduction_pct": round(ct_mean_red, 4),
+        "gap_mean_pp": round(tta_mean_red - ct_mean_red, 4),
         "interpretation": (
             f"Time-to-antibiotics falls {tta_med_red:.1f}% (median) / {tta_mean_red:.1f}% "
             f"(mean); the ER-core scoped cycle time falls {ct_med_red:.1f}% (median) / "

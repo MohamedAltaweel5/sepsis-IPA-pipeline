@@ -9,6 +9,7 @@ Performance = INTER-EVENT intervals (mean seconds on each directly-follows edge)
 Activity durations are NOT computed - single timestamp per event (C7).
 """
 from __future__ import annotations
+from ..prep.constants import rel
 import warnings
 from pathlib import Path
 
@@ -57,11 +58,11 @@ def save_views(scoped_df, out_dir: Path = OUTPUTS_DIR / "figures") -> dict:
         warnings.simplefilter("ignore")
         freq_path = out_dir / "view_dfg_frequency.png"
         pm4py.save_vis_dfg(freq_dfg, start, end, str(freq_path))
-        paths["dfg_frequency"] = str(freq_path)
+        paths["dfg_frequency"] = rel(freq_path)
         try:
             perf_path = out_dir / "fig6_2_dfg_performance.png"
             pm4py.save_vis_performance_dfg(perf_dfg, start, end, str(perf_path))
-            paths["dfg_performance"] = str(perf_path)
+            paths["dfg_performance"] = rel(perf_path)
         except Exception as e:  # graphviz optional; don't fail the pipeline on a figure
             paths["dfg_performance_error"] = str(e)
     return paths

@@ -176,8 +176,8 @@
   },
   "phase1": {
     "discovery": {
-      "model_file": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/models/er_core_petri_net.pnml",
-      "model_figure": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_1_discovered_petri_net.png",
+      "model_file": "outputs/models/er_core_petri_net.pnml",
+      "model_figure": "outputs/figures/fig6_1_discovered_petri_net.png",
       "structure": {
         "n_places": 15,
         "n_transitions": 16,
@@ -251,8 +251,8 @@
       }
     ],
     "view_figures": {
-      "dfg_frequency": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/view_dfg_frequency.png",
-      "dfg_performance": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_2_dfg_performance.png"
+      "dfg_frequency": "outputs/figures/view_dfg_frequency.png",
+      "dfg_performance": "outputs/figures/fig6_2_dfg_performance.png"
     }
   },
   "phase2": {
@@ -540,16 +540,16 @@
           "heuristic": "triage",
           "catalogue_effects": {
             "time": 1,
-            "cost": -1,
+            "cost": 1,
             "quality": 1,
-            "flexibility": 1
+            "flexibility": -1
           },
           "reach_magnitude": 0.835,
           "per_dimension_contribution": {
             "time": 0.4174,
             "quality": 0.2505,
-            "cost": -0.0835,
-            "flexibility": 0.0835
+            "cost": 0.0835,
+            "flexibility": -0.0835
           },
           "score": 0.6679
         },
@@ -558,7 +558,7 @@
           "heuristic": "resequencing",
           "catalogue_effects": {
             "time": 1,
-            "cost": 0,
+            "cost": 1,
             "quality": 0,
             "flexibility": 0
           },
@@ -566,10 +566,10 @@
           "per_dimension_contribution": {
             "time": 0.422,
             "quality": 0.0,
-            "cost": 0.0,
+            "cost": 0.0844,
             "flexibility": 0.0
           },
-          "score": 0.422
+          "score": 0.5064
         },
         {
           "candidate_id": "C4_eliminate_lactate_from_path",
@@ -578,16 +578,16 @@
             "time": 1,
             "cost": 1,
             "quality": -1,
-            "flexibility": 1
+            "flexibility": 0
           },
           "reach_magnitude": 0.844,
           "per_dimension_contribution": {
             "time": 0.422,
             "quality": -0.2532,
             "cost": 0.0844,
-            "flexibility": 0.0844
+            "flexibility": 0.0
           },
-          "score": 0.3376
+          "score": 0.2532
         },
         {
           "candidate_id": "C2_parallel_lactate_antibiotics",
@@ -595,17 +595,17 @@
           "catalogue_effects": {
             "time": 1,
             "cost": -1,
-            "quality": 0,
+            "quality": -1,
             "flexibility": -1
           },
           "reach_magnitude": 1.0,
           "per_dimension_contribution": {
             "time": 0.5,
-            "quality": 0.0,
+            "quality": -0.3,
             "cost": -0.1,
             "flexibility": -0.1
           },
-          "score": 0.3
+          "score": 0.0
         }
       ],
       "ranked_ids": [
@@ -622,21 +622,21 @@
           "C3_triage_infection_expedite"
         ],
         "balanced": [
-          "C4_eliminate_lactate_from_path",
-          "C3_triage_infection_expedite",
           "C1_resequence_abx_before_lactate",
+          "C3_triage_infection_expedite",
+          "C4_eliminate_lactate_from_path",
           "C2_parallel_lactate_antibiotics"
         ],
         "quality_led": [
           "C3_triage_infection_expedite",
           "C1_resequence_abx_before_lactate",
-          "C2_parallel_lactate_antibiotics",
-          "C4_eliminate_lactate_from_path"
+          "C4_eliminate_lactate_from_path",
+          "C2_parallel_lactate_antibiotics"
         ],
         "cost_constrained": [
-          "C4_eliminate_lactate_from_path",
-          "C1_resequence_abx_before_lactate",
           "C3_triage_infection_expedite",
+          "C1_resequence_abx_before_lactate",
+          "C4_eliminate_lactate_from_path",
           "C2_parallel_lactate_antibiotics"
         ]
       },
@@ -662,12 +662,12 @@
           },
           "balanced": {
             "ranking": [
-              "C4_eliminate_lactate_from_path",
-              "C3_triage_infection_expedite",
               "C1_resequence_abx_before_lactate",
+              "C3_triage_infection_expedite",
+              "C4_eliminate_lactate_from_path",
               "C2_parallel_lactate_antibiotics"
             ],
-            "top": "C4_eliminate_lactate_from_path",
+            "top": "C1_resequence_abx_before_lactate",
             "top_changed_vs_base": true,
             "full_ranking_changed_vs_base": true
           },
@@ -675,32 +675,31 @@
             "ranking": [
               "C3_triage_infection_expedite",
               "C1_resequence_abx_before_lactate",
-              "C2_parallel_lactate_antibiotics",
-              "C4_eliminate_lactate_from_path"
+              "C4_eliminate_lactate_from_path",
+              "C2_parallel_lactate_antibiotics"
             ],
             "top": "C3_triage_infection_expedite",
             "top_changed_vs_base": false,
-            "full_ranking_changed_vs_base": true
+            "full_ranking_changed_vs_base": false
           },
           "cost_constrained": {
             "ranking": [
-              "C4_eliminate_lactate_from_path",
-              "C1_resequence_abx_before_lactate",
               "C3_triage_infection_expedite",
+              "C1_resequence_abx_before_lactate",
+              "C4_eliminate_lactate_from_path",
               "C2_parallel_lactate_antibiotics"
             ],
-            "top": "C4_eliminate_lactate_from_path",
-            "top_changed_vs_base": true,
-            "full_ranking_changed_vs_base": true
+            "top": "C3_triage_infection_expedite",
+            "top_changed_vs_base": false,
+            "full_ranking_changed_vs_base": false
           }
         },
         "top_stable_across_all_profiles": false,
         "profiles_that_change_the_top": [
           "time_only",
-          "balanced",
-          "cost_constrained"
+          "balanced"
         ],
-        "conclusion": "Top candidate is NOT invariant: ['time_only', 'balanced', 'cost_constrained'] re-rank the top. "
+        "conclusion": "Top candidate is NOT invariant: ['time_only', 'balanced'] re-rank the top. "
       },
       "top_candidate_stable_across_profiles": false,
       "label": "CANDIDATES, not recommendations (ex-ante, indicative; Phase III decides)"
@@ -709,6 +708,7 @@
   "phase3": {
     "stage1_fidelity": {
       "procedure": "repeated hold-out (k splits x replications), gated on mean",
+      "timing_model": "block",
       "k_splits": 8,
       "split_seeds": [
         1,
@@ -728,6 +728,14 @@
         "tta_emd_h": 0.2287,
         "sim_cycle_mean_h": 1.9002,
         "real_cycle_mean_h": 1.9795,
+        "sim_cycle_sd_h": 2.1295,
+        "real_cycle_sd_h": 2.2785,
+        "sim_cycle_p50_h": 1.2792,
+        "real_cycle_p50_h": 1.4305,
+        "sim_cycle_p90_h": 4.0653,
+        "real_cycle_p90_h": 4.0505,
+        "sim_cycle_p99_h": 8.9318,
+        "real_cycle_p99_h": 8.4838,
         "sim_tta_median_h": 1.8563,
         "real_tta_median_h": 2.0061
       },
@@ -738,6 +746,14 @@
         "tta_emd_h": 0.043,
         "sim_cycle_mean_h": 0.0899,
         "real_cycle_mean_h": 0.1342,
+        "sim_cycle_sd_h": 0.2014,
+        "real_cycle_sd_h": 0.4618,
+        "sim_cycle_p50_h": 0.1018,
+        "real_cycle_p50_h": 0.065,
+        "sim_cycle_p90_h": 0.1823,
+        "real_cycle_p90_h": 0.2139,
+        "sim_cycle_p99_h": 2.2648,
+        "real_cycle_p99_h": 1.7894,
         "sim_tta_median_h": 0.1246,
         "real_tta_median_h": 0.1362
       },
@@ -757,48 +773,56 @@
           "seed": 1,
           "cycle_time_relative_emd": 0.1242,
           "control_flow_tv_distance": 0.058,
+          "test_cycle_sd_h": 2.752,
           "gate_passed": true
         },
         {
           "seed": 7,
           "cycle_time_relative_emd": 0.1269,
           "control_flow_tv_distance": 0.0544,
+          "test_cycle_sd_h": 2.177,
           "gate_passed": true
         },
         {
           "seed": 13,
           "cycle_time_relative_emd": 0.1041,
           "control_flow_tv_distance": 0.0428,
+          "test_cycle_sd_h": 2.174,
           "gate_passed": true
         },
         {
           "seed": 42,
           "cycle_time_relative_emd": 0.2016,
           "control_flow_tv_distance": 0.0479,
+          "test_cycle_sd_h": 1.545,
           "gate_passed": false
         },
         {
           "seed": 99,
           "cycle_time_relative_emd": 0.1668,
           "control_flow_tv_distance": 0.0494,
+          "test_cycle_sd_h": 2.892,
           "gate_passed": true
         },
         {
           "seed": 123,
           "cycle_time_relative_emd": 0.1099,
           "control_flow_tv_distance": 0.0608,
+          "test_cycle_sd_h": 1.631,
           "gate_passed": true
         },
         {
           "seed": 777,
           "cycle_time_relative_emd": 0.1163,
           "control_flow_tv_distance": 0.0538,
+          "test_cycle_sd_h": 2.559,
           "gate_passed": true
         },
         {
           "seed": 2024,
           "cycle_time_relative_emd": 0.1353,
           "control_flow_tv_distance": 0.05,
+          "test_cycle_sd_h": 2.498,
           "gate_passed": true
         }
       ],
@@ -810,23 +834,220 @@
         }
       ],
       "baseline_model_provenance": {
-        "n_model_variants_tried_before_gate_passed": 2,
+        "n_timing_models_evaluated": 2,
         "variants": [
           {
             "variant": 1,
-            "sampler": "independent per-edge interval bootstrap",
-            "outcome": "REJECTED",
-            "reason": "Broke within-case timing correlation and pooled an edge across fast/slow variants; overestimated cycle time (single-split cycle-time relative EMD ~0.22-0.30 > 0.20 gate)."
+            "sampler": "independent per-edge interval bootstrap (mode='edge')",
+            "outcome": "evaluated, not adopted",
+            "reason": "Initially assessed on a single 70/30 split (seed 42), where it exceeded the cycle-time threshold (0.253). Under the final 8-split procedure it passes on the mean (see phase3.timing_model_comparison) but places too little mass near the median and too much in the upper body of the cycle-time distribution."
           },
           {
             "variant": 2,
-            "sampler": "block-bootstrap of real per-variant interval vectors",
-            "outcome": "ACCEPTED",
-            "reason": "Preserves joint within-case timing; cycle-time relative EMD 0.136 (mean over 8 splits) <= 0.20. A more faithful instrument, not a threshold change."
+            "sampler": "block-bootstrap of real per-variant interval vectors (mode='block')",
+            "outcome": "ADOPTED",
+            "reason": "Closer cycle-time distribution shape (lower relative EMD under the same splits and seeds). Both models fail seed 42, the least dispersed test split; the gate is applied to the mean of 8 splits for that reason."
           }
         ],
         "procedure_fix": "Single 70/30 split was high-variance (heavy-tailed cycle time, max ~27 h); moved to repeated 8-split averaging, gated on the mean, to remove split luck rather than select a favourable seed."
       }
+    },
+    "timing_model_comparison": {
+      "block": {
+        "fidelity_mean": {
+          "control_flow_tv_distance": 0.0521,
+          "cycle_time_emd_h": 0.2674,
+          "cycle_time_relative_emd": 0.1356,
+          "tta_emd_h": 0.2287,
+          "sim_cycle_mean_h": 1.9002,
+          "real_cycle_mean_h": 1.9795,
+          "sim_cycle_sd_h": 2.1295,
+          "real_cycle_sd_h": 2.2785,
+          "sim_cycle_p50_h": 1.2792,
+          "real_cycle_p50_h": 1.4305,
+          "sim_cycle_p90_h": 4.0653,
+          "real_cycle_p90_h": 4.0505,
+          "sim_cycle_p99_h": 8.9318,
+          "real_cycle_p99_h": 8.4838,
+          "sim_tta_median_h": 1.8563,
+          "real_tta_median_h": 2.0061
+        },
+        "fidelity_std": {
+          "control_flow_tv_distance": 0.0054,
+          "cycle_time_emd_h": 0.0569,
+          "cycle_time_relative_emd": 0.0307,
+          "tta_emd_h": 0.043,
+          "sim_cycle_mean_h": 0.0899,
+          "real_cycle_mean_h": 0.1342,
+          "sim_cycle_sd_h": 0.2014,
+          "real_cycle_sd_h": 0.4618,
+          "sim_cycle_p50_h": 0.1018,
+          "real_cycle_p50_h": 0.065,
+          "sim_cycle_p90_h": 0.1823,
+          "real_cycle_p90_h": 0.2139,
+          "sim_cycle_p99_h": 2.2648,
+          "real_cycle_p99_h": 1.7894,
+          "sim_tta_median_h": 0.1246,
+          "real_tta_median_h": 0.1362
+        },
+        "per_split": [
+          {
+            "seed": 1,
+            "cycle_time_relative_emd": 0.1242,
+            "control_flow_tv_distance": 0.058,
+            "test_cycle_sd_h": 2.752,
+            "gate_passed": true
+          },
+          {
+            "seed": 7,
+            "cycle_time_relative_emd": 0.1269,
+            "control_flow_tv_distance": 0.0544,
+            "test_cycle_sd_h": 2.177,
+            "gate_passed": true
+          },
+          {
+            "seed": 13,
+            "cycle_time_relative_emd": 0.1041,
+            "control_flow_tv_distance": 0.0428,
+            "test_cycle_sd_h": 2.174,
+            "gate_passed": true
+          },
+          {
+            "seed": 42,
+            "cycle_time_relative_emd": 0.2016,
+            "control_flow_tv_distance": 0.0479,
+            "test_cycle_sd_h": 1.545,
+            "gate_passed": false
+          },
+          {
+            "seed": 99,
+            "cycle_time_relative_emd": 0.1668,
+            "control_flow_tv_distance": 0.0494,
+            "test_cycle_sd_h": 2.892,
+            "gate_passed": true
+          },
+          {
+            "seed": 123,
+            "cycle_time_relative_emd": 0.1099,
+            "control_flow_tv_distance": 0.0608,
+            "test_cycle_sd_h": 1.631,
+            "gate_passed": true
+          },
+          {
+            "seed": 777,
+            "cycle_time_relative_emd": 0.1163,
+            "control_flow_tv_distance": 0.0538,
+            "test_cycle_sd_h": 2.559,
+            "gate_passed": true
+          },
+          {
+            "seed": 2024,
+            "cycle_time_relative_emd": 0.1353,
+            "control_flow_tv_distance": 0.05,
+            "test_cycle_sd_h": 2.498,
+            "gate_passed": true
+          }
+        ],
+        "pass_fraction": 0.875
+      },
+      "edge": {
+        "fidelity_mean": {
+          "control_flow_tv_distance": 0.0521,
+          "cycle_time_emd_h": 0.3297,
+          "cycle_time_relative_emd": 0.1683,
+          "tta_emd_h": 0.277,
+          "sim_cycle_mean_h": 1.9181,
+          "real_cycle_mean_h": 1.9795,
+          "sim_cycle_sd_h": 2.3179,
+          "real_cycle_sd_h": 2.2785,
+          "sim_cycle_p50_h": 1.1414,
+          "real_cycle_p50_h": 1.4305,
+          "sim_cycle_p90_h": 4.3265,
+          "real_cycle_p90_h": 4.0505,
+          "sim_cycle_p99_h": 9.0248,
+          "real_cycle_p99_h": 8.4838,
+          "sim_tta_median_h": 1.744,
+          "real_tta_median_h": 2.0061
+        },
+        "fidelity_std": {
+          "control_flow_tv_distance": 0.0054,
+          "cycle_time_emd_h": 0.0456,
+          "cycle_time_relative_emd": 0.0338,
+          "tta_emd_h": 0.0823,
+          "sim_cycle_mean_h": 0.0546,
+          "real_cycle_mean_h": 0.1342,
+          "sim_cycle_sd_h": 0.2544,
+          "real_cycle_sd_h": 0.4618,
+          "sim_cycle_p50_h": 0.1009,
+          "real_cycle_p50_h": 0.065,
+          "sim_cycle_p90_h": 0.2448,
+          "real_cycle_p90_h": 0.2139,
+          "sim_cycle_p99_h": 2.0183,
+          "real_cycle_p99_h": 1.7894,
+          "sim_tta_median_h": 0.1038,
+          "real_tta_median_h": 0.1362
+        },
+        "per_split": [
+          {
+            "seed": 1,
+            "cycle_time_relative_emd": 0.147,
+            "control_flow_tv_distance": 0.058,
+            "test_cycle_sd_h": 2.752,
+            "gate_passed": true
+          },
+          {
+            "seed": 7,
+            "cycle_time_relative_emd": 0.1711,
+            "control_flow_tv_distance": 0.0544,
+            "test_cycle_sd_h": 2.177,
+            "gate_passed": true
+          },
+          {
+            "seed": 13,
+            "cycle_time_relative_emd": 0.1412,
+            "control_flow_tv_distance": 0.0428,
+            "test_cycle_sd_h": 2.174,
+            "gate_passed": true
+          },
+          {
+            "seed": 42,
+            "cycle_time_relative_emd": 0.2531,
+            "control_flow_tv_distance": 0.0479,
+            "test_cycle_sd_h": 1.545,
+            "gate_passed": false
+          },
+          {
+            "seed": 99,
+            "cycle_time_relative_emd": 0.1515,
+            "control_flow_tv_distance": 0.0494,
+            "test_cycle_sd_h": 2.892,
+            "gate_passed": true
+          },
+          {
+            "seed": 123,
+            "cycle_time_relative_emd": 0.1755,
+            "control_flow_tv_distance": 0.0608,
+            "test_cycle_sd_h": 1.631,
+            "gate_passed": true
+          },
+          {
+            "seed": 777,
+            "cycle_time_relative_emd": 0.1532,
+            "control_flow_tv_distance": 0.0538,
+            "test_cycle_sd_h": 2.559,
+            "gate_passed": true
+          },
+          {
+            "seed": 2024,
+            "cycle_time_relative_emd": 0.154,
+            "control_flow_tv_distance": 0.05,
+            "test_cycle_sd_h": 2.498,
+            "gate_passed": true
+          }
+        ],
+        "pass_fraction": 0.875
+      },
+      "note": "Gate uses the block model only; edge is reported for comparison."
     },
     "stage2_evaluation": {
       "evaluated": true,
@@ -864,26 +1085,26 @@
             518,
             519
           ],
-          "baseline_compliance_1h": 34.325,
+          "baseline_compliance_1h": 34.324,
           "predicted_compliance_1h": 80.371,
           "predicted_compliance_1h_sd": 1.493,
           "baseline_median_tta_h": 1.898,
           "predicted_median_tta_h": 0.39,
           "baseline_scoped_cycle_time_h": 1.921,
           "predicted_scoped_cycle_time_h": 1.556,
-          "predicted_risk_reduction": 53.59,
+          "predicted_risk_reduction": 53.68,
           "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
           "risk_components": {
-            "denominator": "fixed: total baseline risk across all governed provisions",
-            "base_risk": 0.856,
-            "candidate_risk": 0.3973,
+            "denominator": "fixed: total baseline risk across all governed provisions; antibiotics_1h from the paired simulated baseline",
+            "base_risk": 0.857761,
+            "candidate_risk": 0.397292,
             "provisions": [
               {
                 "provision_id": "antibiotics_1h",
                 "weight": 1.0,
-                "baseline_noncompliant": 0.655,
-                "candidate_noncompliant": 0.1963,
-                "status": "target (improved)"
+                "baseline_noncompliant": 0.656761,
+                "candidate_noncompliant": 0.196292,
+                "status": "target (improved; paired simulated baseline)"
               },
               {
                 "provision_id": "fluids_3h",
@@ -910,10 +1131,17 @@
             "damaged_detail": {}
           },
           "transfer_gap": {
-            "tta_reduction_pct": 79.5,
-            "scoped_cycle_time_reduction_pct": 19.0,
-            "gap_pp": 60.5,
-            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 19.0%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+            "baseline_tta_median_h": 1.8976,
+            "baseline_tta_mean_h": 2.0912,
+            "baseline_ct_median_h": 1.3279,
+            "baseline_ct_mean_h": 1.921,
+            "tta_median_reduction_pct": 79.4462,
+            "ct_median_reduction_pct": 41.8121,
+            "gap_median_pp": 37.6341,
+            "tta_mean_reduction_pct": 64.9169,
+            "ct_mean_reduction_pct": 18.9912,
+            "gap_mean_pp": 45.9257,
+            "interpretation": "Time-to-antibiotics falls 79.4% (median) / 64.9% (mean); the ER-core scoped cycle time falls 41.8% (median) / 19.0% (mean). The gain is largely local to the governed step (scoped cycle time, NOT the Registration->Admission emergency phase)."
           },
           "binding_constraint_shift": {
             "distribution_pct": {
@@ -966,26 +1194,26 @@
             518,
             519
           ],
-          "baseline_compliance_1h": 34.325,
+          "baseline_compliance_1h": 34.324,
           "predicted_compliance_1h": 80.371,
           "predicted_compliance_1h_sd": 1.493,
           "baseline_median_tta_h": 1.898,
           "predicted_median_tta_h": 0.39,
           "baseline_scoped_cycle_time_h": 1.921,
           "predicted_scoped_cycle_time_h": 1.556,
-          "predicted_risk_reduction": 53.59,
+          "predicted_risk_reduction": 53.68,
           "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
           "risk_components": {
-            "denominator": "fixed: total baseline risk across all governed provisions",
-            "base_risk": 0.856,
-            "candidate_risk": 0.3973,
+            "denominator": "fixed: total baseline risk across all governed provisions; antibiotics_1h from the paired simulated baseline",
+            "base_risk": 0.857761,
+            "candidate_risk": 0.397292,
             "provisions": [
               {
                 "provision_id": "antibiotics_1h",
                 "weight": 1.0,
-                "baseline_noncompliant": 0.655,
-                "candidate_noncompliant": 0.1963,
-                "status": "target (improved)"
+                "baseline_noncompliant": 0.656761,
+                "candidate_noncompliant": 0.196292,
+                "status": "target (improved; paired simulated baseline)"
               },
               {
                 "provision_id": "fluids_3h",
@@ -1012,10 +1240,17 @@
             "damaged_detail": {}
           },
           "transfer_gap": {
-            "tta_reduction_pct": 79.5,
-            "scoped_cycle_time_reduction_pct": 19.0,
-            "gap_pp": 60.5,
-            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 19.0%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+            "baseline_tta_median_h": 1.8976,
+            "baseline_tta_mean_h": 2.0912,
+            "baseline_ct_median_h": 1.3279,
+            "baseline_ct_mean_h": 1.921,
+            "tta_median_reduction_pct": 79.4462,
+            "ct_median_reduction_pct": 41.8121,
+            "gap_median_pp": 37.6341,
+            "tta_mean_reduction_pct": 64.9169,
+            "ct_mean_reduction_pct": 18.9912,
+            "gap_mean_pp": 45.9257,
+            "interpretation": "Time-to-antibiotics falls 79.4% (median) / 64.9% (mean); the ER-core scoped cycle time falls 41.8% (median) / 19.0% (mean). The gain is largely local to the governed step (scoped cycle time, NOT the Registration->Admission emergency phase)."
           },
           "binding_constraint_shift": {
             "distribution_pct": {
@@ -1068,26 +1303,26 @@
             518,
             519
           ],
-          "baseline_compliance_1h": 34.325,
+          "baseline_compliance_1h": 34.324,
           "predicted_compliance_1h": 80.371,
           "predicted_compliance_1h_sd": 1.493,
           "baseline_median_tta_h": 1.898,
           "predicted_median_tta_h": 0.39,
           "baseline_scoped_cycle_time_h": 1.921,
           "predicted_scoped_cycle_time_h": 1.507,
-          "predicted_risk_reduction": 17.49,
+          "predicted_risk_reduction": 17.66,
           "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
           "risk_components": {
-            "denominator": "fixed: total baseline risk across all governed provisions",
-            "base_risk": 0.856,
-            "candidate_risk": 0.7063,
+            "denominator": "fixed: total baseline risk across all governed provisions; antibiotics_1h from the paired simulated baseline",
+            "base_risk": 0.857761,
+            "candidate_risk": 0.706292,
             "provisions": [
               {
                 "provision_id": "antibiotics_1h",
                 "weight": 1.0,
-                "baseline_noncompliant": 0.655,
-                "candidate_noncompliant": 0.1963,
-                "status": "target (improved)"
+                "baseline_noncompliant": 0.656761,
+                "candidate_noncompliant": 0.196292,
+                "status": "target (improved; paired simulated baseline)"
               },
               {
                 "provision_id": "fluids_3h",
@@ -1122,10 +1357,17 @@
             }
           },
           "transfer_gap": {
-            "tta_reduction_pct": 79.5,
-            "scoped_cycle_time_reduction_pct": 21.6,
-            "gap_pp": 57.9,
-            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 21.6%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+            "baseline_tta_median_h": 1.8976,
+            "baseline_tta_mean_h": 2.0912,
+            "baseline_ct_median_h": 1.3279,
+            "baseline_ct_mean_h": 1.921,
+            "tta_median_reduction_pct": 79.4462,
+            "ct_median_reduction_pct": 46.9419,
+            "gap_median_pp": 32.5042,
+            "tta_mean_reduction_pct": 64.9169,
+            "ct_mean_reduction_pct": 21.5529,
+            "gap_mean_pp": 43.364,
+            "interpretation": "Time-to-antibiotics falls 79.4% (median) / 64.9% (mean); the ER-core scoped cycle time falls 46.9% (median) / 21.6% (mean). The gain is largely local to the governed step (scoped cycle time, NOT the Registration->Admission emergency phase)."
           },
           "binding_constraint_shift": {
             "distribution_pct": {
@@ -1178,26 +1420,26 @@
             518,
             519
           ],
-          "baseline_compliance_1h": 34.325,
+          "baseline_compliance_1h": 34.324,
           "predicted_compliance_1h": 79.836,
-          "predicted_compliance_1h_sd": 1.447,
+          "predicted_compliance_1h_sd": 1.448,
           "baseline_median_tta_h": 1.898,
           "predicted_median_tta_h": 0.391,
           "baseline_scoped_cycle_time_h": 1.921,
           "predicted_scoped_cycle_time_h": 1.565,
-          "predicted_risk_reduction": 52.97,
+          "predicted_risk_reduction": 53.06,
           "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
           "risk_components": {
-            "denominator": "fixed: total baseline risk across all governed provisions",
-            "base_risk": 0.856,
-            "candidate_risk": 0.4026,
+            "denominator": "fixed: total baseline risk across all governed provisions; antibiotics_1h from the paired simulated baseline",
+            "base_risk": 0.857761,
+            "candidate_risk": 0.402641,
             "provisions": [
               {
                 "provision_id": "antibiotics_1h",
                 "weight": 1.0,
-                "baseline_noncompliant": 0.655,
-                "candidate_noncompliant": 0.2016,
-                "status": "target (improved)"
+                "baseline_noncompliant": 0.656761,
+                "candidate_noncompliant": 0.201641,
+                "status": "target (improved; paired simulated baseline)"
               },
               {
                 "provision_id": "fluids_3h",
@@ -1224,10 +1466,17 @@
             "damaged_detail": {}
           },
           "transfer_gap": {
-            "tta_reduction_pct": 79.4,
-            "scoped_cycle_time_reduction_pct": 18.5,
-            "gap_pp": 60.9,
-            "interpretation": "Time-to-antibiotics improves 79.4% but the ER-core scoped cycle time only 18.5%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+            "baseline_tta_median_h": 1.8976,
+            "baseline_tta_mean_h": 2.0912,
+            "baseline_ct_median_h": 1.3279,
+            "baseline_ct_mean_h": 1.921,
+            "tta_median_reduction_pct": 79.3711,
+            "ct_median_reduction_pct": 41.456,
+            "gap_median_pp": 37.9152,
+            "tta_mean_reduction_pct": 64.0066,
+            "ct_mean_reduction_pct": 18.5473,
+            "gap_mean_pp": 45.4593,
+            "interpretation": "Time-to-antibiotics falls 79.4% (median) / 64.0% (mean); the ER-core scoped cycle time falls 41.5% (median) / 18.5% (mean). The gain is largely local to the governed step (scoped cycle time, NOT the Registration->Admission emergency phase)."
           },
           "binding_constraint_shift": {
             "distribution_pct": {
@@ -1414,7 +1663,7 @@
             "predicted_median_tta_h": 0.39
           },
           "anchor_agnostic_all_abx_arrivals": {
-            "predicted_compliance_1h": 77.774,
+            "predicted_compliance_1h": 77.773,
             "predicted_median_tta_h": 0.331
           },
           "excluding_the_83_pathway": {
@@ -1484,14 +1733,14 @@
   },
   "report": {
     "figures": {
-      "fig5_tta": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig5_tta_distribution.png",
-      "fig6_2_bottlenecks": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_2_bottlenecks.png",
-      "fig6_3_candidate": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_3_candidate_structure.png",
-      "fig6_4_simulation": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_4_simulation_results.png",
-      "fig6_5_fidelity": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_5_fidelity.png"
+      "fig5_tta": "outputs/figures/fig5_tta_distribution.png",
+      "fig6_2_bottlenecks": "outputs/figures/fig6_2_bottlenecks.png",
+      "fig6_3_candidate": "outputs/figures/fig6_3_candidate_structure.png",
+      "fig6_4_simulation": "outputs/figures/fig6_4_simulation_results.png",
+      "fig6_5_fidelity": "outputs/figures/fig6_5_fidelity.png"
     },
-    "placeholder_map_md": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/placeholder_map.md",
-    "placeholder_map_json": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/placeholder_map.json",
+    "placeholder_map_md": "outputs/placeholder_map.md",
+    "placeholder_map_json": "outputs/placeholder_map.json",
     "n_placeholders": 10
   }
 }

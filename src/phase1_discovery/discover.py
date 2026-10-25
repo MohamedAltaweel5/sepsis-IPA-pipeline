@@ -14,6 +14,7 @@ No ML, no learned thresholds (C1). The Inductive Miner is a deterministic,
 algorithmic discovery method.
 """
 from __future__ import annotations
+from ..prep.constants import rel
 import warnings
 from pathlib import Path
 
@@ -84,8 +85,8 @@ def run_discovery(scoped_df, out_dir: Path = OUTPUTS_DIR / "models") -> dict:
             fig_path = None
 
     return {
-        "model_file": str(pnml_path),
-        "model_figure": str(fig_path) if fig_path else None,
+        "model_file": rel(pnml_path),
+        "model_figure": rel(fig_path) if fig_path else None,
         "structure": struct,
         "conformance": conf,
         "discovery_algorithm": "Inductive Miner (IM, noise_threshold=0.0)",

@@ -6,6 +6,7 @@ returns the saved path. Numbers come from the log / results.json; nothing here i
 invented.
 """
 from __future__ import annotations
+from ..prep.constants import rel
 from pathlib import Path
 import json
 import warnings
@@ -65,7 +66,7 @@ def fig_tta_distribution(df, path=FIGDIR / "fig5_tta_distribution.png"):
     ax.set_ylabel("Cumulative fraction of treated cases")
     ax.set_title("Baseline time-to-antibiotics (ECDF)", fontsize=9)
     fig.savefig(path); plt.close(fig)
-    return str(path)
+    return rel(path)
 
 
 def fig_bottlenecks(bottlenecks, path=FIGDIR / "fig6_2_bottlenecks.png"):
@@ -83,7 +84,7 @@ def fig_bottlenecks(bottlenecks, path=FIGDIR / "fig6_2_bottlenecks.png"):
     for yi, m in zip(y, means):
         ax.text(m + 0.02, yi, f"{m:.2f}", va="center", fontsize=6.5)
     fig.savefig(path); plt.close(fig)
-    return str(path)
+    return rel(path)
 
 
 def fig_candidate_structure(path=FIGDIR / "fig6_3_candidate_structure.png"):
@@ -108,13 +109,13 @@ def fig_candidate_structure(path=FIGDIR / "fig6_3_candidate_structure.png"):
     draw(a1, seq_before, "(a) Baseline: antibiotics wait behind lactate", "IV Antibiotics")
     draw(a2, seq_after, "(b) C1 resequencing: antibiotics on recognition", "IV Antibiotics")
     fig.savefig(path); plt.close(fig)
-    return str(path)
+    return rel(path)
 
 
 def fig_simulation_results(evaluation, path=FIGDIR / "fig6_4_simulation_results.png"):
     """Fig 6.4 - (a) baseline vs candidates 1-h compliance; (b) the TRANSFER GAP:
     time-to-antibiotics reduction vs emergency-phase reduction per candidate."""
-    cands = list(evaluation["candidates"])
+    cands = sorted(evaluation["candidates"], key=lambda c: c["candidate_id"])  # C1..C4
     ids = [c["candidate_id"].split("_")[0] for c in cands]
     base_comp = cands[0]["baseline_compliance_1h"]
     comp = [c["predicted_compliance_1h"] for c in cands]
@@ -123,7 +124,7 @@ def fig_simulation_results(evaluation, path=FIGDIR / "fig6_4_simulation_results.
     ep_red = [c["transfer_gap"]["ct_median_reduction_pct"] for c in cands]
     x = np.arange(len(cands))
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.9, 2.6))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 2.8), constrained_layout=True)
     # (a) compliance
     ax1.axhline(base_comp, color="black", linewidth=0.9, linestyle="--",
                 label=f"Baseline {base_comp:.1f}%")
@@ -145,9 +146,8 @@ def fig_simulation_results(evaluation, path=FIGDIR / "fig6_4_simulation_results.
     ax2.set_ylabel("Reduction vs baseline (%)"); ax2.set_ylim(0, 100)
     ax2.set_title("(b) Transfer gap (medians)", fontsize=8.5)
     ax2.legend(fontsize=6.5, frameon=False, loc="upper right")
-    fig.suptitle("Simulation results (model-predicted)", fontsize=9)
     fig.savefig(path); plt.close(fig)
-    return str(path)
+    return rel(path)
 
 
 def fig_fidelity_overlay(real_tta, sim_tta, path=FIGDIR / "fig6_5_fidelity.png"):
@@ -163,7 +163,7 @@ def fig_fidelity_overlay(real_tta, sim_tta, path=FIGDIR / "fig6_5_fidelity.png")
     ax.set_title("Fidelity: simulated vs real TTA", fontsize=9)
     ax.legend(fontsize=7, frameon=False, loc="lower right")
     fig.savefig(path); plt.close(fig)
-    return str(path)
+    return rel(path)
 
 
 def generate_all(df, scoped_df, results: dict) -> dict:
