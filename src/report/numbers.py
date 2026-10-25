@@ -5,6 +5,7 @@ placeholders can be filled MECHANICALLY - never by hand, never guessed. Writes a
 human-readable Markdown table and a machine-readable JSON.
 """
 from __future__ import annotations
+from ..prep.constants import rel
 import json
 from pathlib import Path
 
@@ -62,6 +63,6 @@ def emit(results: dict, out_dir: Path = OUTPUTS_DIR) -> dict:
         lines.append(f"| {r['thesis_location']} | {r['quantity']} | "
                      f"**{r['value']}** | `{r['results_key']}` |")
     (out_dir / "placeholder_map.md").write_text("\n".join(lines) + "\n")
-    return {"placeholder_map_md": str(out_dir / "placeholder_map.md"),
-            "placeholder_map_json": str(out_dir / "placeholder_map.json"),
+    return {"placeholder_map_md": rel(out_dir / "placeholder_map.md"),
+            "placeholder_map_json": rel(out_dir / "placeholder_map.json"),
             "n_placeholders": len(rows)}

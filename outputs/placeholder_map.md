@@ -13,4 +13,4 @@
 | §4.5.2 / abstract | Predicted 1-hour compliance (top candidate) | **80.371%** | `phase3...C1_resequence_abx_before_lactate.predicted_compliance_1h` |
 | §4.5.2 | Predicted median TTA (top candidate) | **0.39 h** | `phase3...C1_resequence_abx_before_lactate.predicted_median_tta_h` |
 | §4.5.2 | Predicted scoped cycle time (top candidate) [NOT the §7.1 emergency phase] | **1.556 h** | `phase3...C1_resequence_abx_before_lactate.predicted_scoped_cycle_time_h` |
-| §4.5.2 / abstract | Composite risk reduction (top candidate) | **53.59%** | `phase3...C1_resequence_abx_before_lactate.predicted_risk_reduction` |
+| §4.5.2 / abstract | Composite risk reduction (top candidate) | **53.68%** | `phase3...C1_resequence_abx_before_lactate.predicted_risk_reduction` |

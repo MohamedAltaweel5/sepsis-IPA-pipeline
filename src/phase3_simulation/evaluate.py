@@ -96,17 +96,20 @@ def _new_abx_time(acts, times, model, rng, anchor: str) -> float:
 
 
 def _metrics(tta_list, cycle_list, target_h=1.0):
+    """Per-replication metrics at FULL precision (rounding happens only when
+    results are reported; rounding here would bias the 20-replication averages)."""
     tta = np.array([x for x in tta_list if x is not None])
     cyc = np.array(cycle_list)
     return {
         "n_treated": int(len(tta)),
-        "compliance_1h_pct": round(100 * float((tta <= target_h).mean()), 2),
-        "median_tta_h": round(float(np.median(tta)), 3),
-        "mean_tta_h": round(float(tta.mean()), 3),
+        "compliance_1h_pct": 100 * float((tta <= target_h).mean()),
+        "median_tta_h": float(np.median(tta)),
+        "mean_tta_h": float(tta.mean()),
         # ER-core scoped cycle time (first -> last ER-core event). This is NOT the
         # Registration -> first Admission emergency-phase metric of prep/section 7.1
         # (see DEVIATIONS D10); named distinctly to prevent conflation in the thesis.
-        "mean_scoped_cycle_time_h": round(float(cyc.mean()), 3),
+        "mean_scoped_cycle_time_h": float(cyc.mean()),
+        "median_scoped_cycle_time_h": float(np.median(cyc)),
     }
 
 
@@ -348,8 +351,9 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
             emergent[k] = emergent.get(k, 0) + v
 
     def agg(reps, key):
+        # Full precision; rounded only in the returned/reported values below.
         vals = np.array([rep[key] for rep in reps])
-        return round(float(vals.mean()), 3), round(float(vals.std()), 3)
+        return float(vals.mean()), float(vals.std())
 
     base_comp, _ = agg(base_reps, "compliance_1h_pct")
     cand_comp, cand_comp_sd = agg(cand_reps, "compliance_1h_pct")
@@ -357,6 +361,10 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
     cand_med, _ = agg(cand_reps, "median_tta_h")
     base_cyc, _ = agg(base_reps, "mean_scoped_cycle_time_h")
     cand_cyc, _ = agg(cand_reps, "mean_scoped_cycle_time_h")
+    base_mean_tta, _ = agg(base_reps, "mean_tta_h")
+    cand_mean_tta, _ = agg(cand_reps, "mean_tta_h")
+    base_cyc_med, _ = agg(base_reps, "median_scoped_cycle_time_h")
+    cand_cyc_med, _ = agg(cand_reps, "median_scoped_cycle_time_h")
 
     # Composite, strength-weighted risk reduction with a FIXED denominator = the total
     # baseline risk across ALL governed provisions (antibiotics 1.0 + fluids 0.5 +
@@ -366,23 +374,30 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
     # target; damaged provisions (e.g. C4's path-local lactate loss) raise cand_risk,
     # so the metric agrees with the Devil's Quadrangle quality:-1 sign.
     damaged = _damaged_provisions(candidate, governed_pool)
-    base_risk = sum(p["weight"] * p["baseline_noncompliant"] for p in governed_pool)
-    cand_risk = 0.0
+    # The improved target (antibiotics_1h) enters BOTH base and candidate risk from the
+    # SAME paired simulation (simulated baseline vs candidate), so the reduction is not
+    # confounded by the gap between the simulated and the observed baseline. Other
+    # provisions, which no candidate re-times, enter at their observed values.
+    base_abx_nc = (100 - base_comp) / 100.0
+    base_risk, cand_risk = 0.0, 0.0
     provision_rows = []
     for p in governed_pool:
         pid, w = p["provision_id"], p["weight"]
         if pid == "antibiotics_1h":
-            cand_nc, status = round((100 - cand_comp) / 100.0, 4), "target (improved)"
+            base_nc = base_abx_nc
+            cand_nc, status = (100 - cand_comp) / 100.0, "target (improved; paired simulated baseline)"
         elif pid in damaged:
+            base_nc = p["baseline_noncompliant"]
             cand_nc, status = damaged[pid]["candidate_noncompliant"], "damaged (path-local)"
         else:
+            base_nc = p["baseline_noncompliant"]
             cand_nc, status = p["baseline_noncompliant"], "unchanged"
+        base_risk += w * base_nc
         cand_risk += w * cand_nc
         provision_rows.append({"provision_id": pid, "weight": w,
-                               "baseline_noncompliant": p["baseline_noncompliant"],
-                               "candidate_noncompliant": cand_nc, "status": status})
-    rel_risk_reduction = round(100 * (base_risk - cand_risk) / base_risk, 2) \
-        if base_risk > 0 else 0.0
+                               "baseline_noncompliant": round(base_nc, 6),
+                               "candidate_noncompliant": round(cand_nc, 6), "status": status})
+    rel_risk_reduction = 100 * (base_risk - cand_risk) / base_risk if base_risk > 0 else 0.0
     risk_formula = ("risk = SUM over ALL governed provisions of weight * "
                     "noncompliant_fraction; risk_reduction% = 100*(base_risk - "
                     "cand_risk)/base_risk with base_risk FIXED across candidates. "
@@ -391,9 +406,10 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
                     "PATH-LOCALLY (residual compliance from cases that still perform it, "
                     "not global 0%).")
     risk_components = {
-        "denominator": "fixed: total baseline risk across all governed provisions",
-        "base_risk": round(base_risk, 4),
-        "candidate_risk": round(cand_risk, 4),
+        "denominator": ("fixed: total baseline risk across all governed provisions; "
+                        "antibiotics_1h from the paired simulated baseline"),
+        "base_risk": round(base_risk, 6),
+        "candidate_risk": round(cand_risk, 6),
         "provisions": provision_rows,
         "damaged_detail": damaged,
     }
@@ -404,17 +420,29 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
     # the end-to-end SCOPED CYCLE TIME (first->last ER-core event; NOT the section-7.1
     # Registration->Admission emergency phase, see DEVIATIONS D10), because relieving
     # the antibiotic delay shifts the binding constraint onto other activities.
-    tta_reduction_pct = round(100 * (base_med - cand_med) / base_med, 1) if base_med else 0.0
-    cycle_reduction_pct = round(100 * (base_cyc - cand_cyc) / base_cyc, 1) if base_cyc else 0.0
+    def _red(b, c):
+        return 100 * (b - c) / b if b else 0.0
+    tta_med_red = _red(base_med, cand_med)
+    tta_mean_red = _red(base_mean_tta, cand_mean_tta)
+    ct_med_red = _red(base_cyc_med, cand_cyc_med)
+    ct_mean_red = _red(base_cyc, cand_cyc)
     transfer_gap = {
-        "tta_reduction_pct": tta_reduction_pct,
-        "scoped_cycle_time_reduction_pct": cycle_reduction_pct,
-        "gap_pp": round(tta_reduction_pct - cycle_reduction_pct, 1),
+        # Matched statistics: median vs median and mean vs mean.
+        "baseline_tta_median_h": round(base_med, 4),
+        "baseline_tta_mean_h": round(base_mean_tta, 4),
+        "baseline_ct_median_h": round(base_cyc_med, 4),
+        "baseline_ct_mean_h": round(base_cyc, 4),
+        "tta_median_reduction_pct": round(tta_med_red, 4),
+        "ct_median_reduction_pct": round(ct_med_red, 4),
+        "gap_median_pp": round(tta_med_red - ct_med_red, 4),
+        "tta_mean_reduction_pct": round(tta_mean_red, 4),
+        "ct_mean_reduction_pct": round(ct_mean_red, 4),
+        "gap_mean_pp": round(tta_mean_red - ct_mean_red, 4),
         "interpretation": (
-            f"Time-to-antibiotics improves {tta_reduction_pct}% but the ER-core scoped "
-            f"cycle time only {cycle_reduction_pct}%: the gain is largely local to the "
-            f"governed step; the binding constraint transfers to other activities. "
-            f"(Scoped cycle time, NOT the Registration->Admission emergency phase.)"),
+            f"Time-to-antibiotics falls {tta_med_red:.1f}% (median) / {tta_mean_red:.1f}% "
+            f"(mean); the ER-core scoped cycle time falls {ct_med_red:.1f}% (median) / "
+            f"{ct_mean_red:.1f}% (mean). The gain is largely local to the governed step "
+            f"(scoped cycle time, NOT the Registration->Admission emergency phase)."),
     }
 
     # Binding-constraint shift (renamed from the earlier prose 'emergent/bottleneck'
@@ -443,17 +471,17 @@ def evaluate_candidate(model, candidate, n=1000, replications=20, base_seed=500,
         "n_per_rep": n,
         "replications": replications,
         "seeds": [base_seed + r for r in range(replications)],
-        "baseline_compliance_1h": base_comp,
-        "predicted_compliance_1h": cand_comp,
-        "predicted_compliance_1h_sd": cand_comp_sd,
-        "baseline_median_tta_h": base_med,
-        "predicted_median_tta_h": cand_med,
+        "baseline_compliance_1h": round(base_comp, 3),
+        "predicted_compliance_1h": round(cand_comp, 3),
+        "predicted_compliance_1h_sd": round(cand_comp_sd, 3),
+        "baseline_median_tta_h": round(base_med, 3),
+        "predicted_median_tta_h": round(cand_med, 3),
         # Renamed from baseline_ephase_h / predicted_ephase_duration (DEVIATIONS D10):
         # this is the ER-core SCOPED CYCLE TIME (first->last ER-core event), NOT the
         # section-7.1 Registration->Admission emergency-phase (prep.ephase_*, ~3.22 h).
-        "baseline_scoped_cycle_time_h": base_cyc,
-        "predicted_scoped_cycle_time_h": cand_cyc,
-        "predicted_risk_reduction": rel_risk_reduction,
+        "baseline_scoped_cycle_time_h": round(base_cyc, 3),
+        "predicted_scoped_cycle_time_h": round(cand_cyc, 3),
+        "predicted_risk_reduction": round(rel_risk_reduction, 2),
         "risk_reduction_formula": risk_formula,
         "risk_components": risk_components,
         "transfer_gap": transfer_gap,

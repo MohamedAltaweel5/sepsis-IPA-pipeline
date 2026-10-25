@@ -99,6 +99,21 @@ def run_phase3(df, scoped_df, permitted_candidates, detection=None,
     fidelity = run_repeated_fidelity(scoped_df, k_splits=k_splits,
                                      n_replications=n_replications)
     gate_passed = fidelity["gate"]["gate_passed"]
+    # Reproducibility of the timing-model comparison (paper Table 11): the alternative
+    # independent per-edge sampler under the SAME splits and seeds. Not used for gating.
+    fidelity_edge = run_repeated_fidelity(scoped_df, k_splits=k_splits,
+                                          n_replications=n_replications, mode="edge")
+    timing_model_comparison = {
+        "block": {"fidelity_mean": fidelity["fidelity_mean"],
+                  "fidelity_std": fidelity["fidelity_std"],
+                  "per_split": fidelity["per_split"],
+                  "pass_fraction": fidelity["per_split_gate_pass_fraction"]},
+        "edge": {"fidelity_mean": fidelity_edge["fidelity_mean"],
+                 "fidelity_std": fidelity_edge["fidelity_std"],
+                 "per_split": fidelity_edge["per_split"],
+                 "pass_fraction": fidelity_edge["per_split_gate_pass_fraction"]},
+        "note": "Gate uses the block model only; edge is reported for comparison.",
+    }
     evaluation = evaluate_all(scoped_df, permitted_candidates, gate_passed,
                               n=eval_n, replications=eval_reps, detection=detection)
     # Validity control: selection-bias check on the empirical antibiotics-delay pool.
@@ -106,6 +121,7 @@ def run_phase3(df, scoped_df, permitted_candidates, detection=None,
     bias_followup = bias_check.compute(df, scoped_df, eval_model, permitted_candidates)
     return {
         "stage1_fidelity": fidelity,
+        "timing_model_comparison": timing_model_comparison,
         "stage2_evaluation": evaluation,
         "candidate_timing_sample_bias": {"followup": bias_followup},
     }
