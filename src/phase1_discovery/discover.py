@@ -80,7 +80,11 @@ def run_discovery(scoped_df, out_dir: Path = OUTPUTS_DIR / "models") -> dict:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         try:
-            pm4py.save_vis_petri_net(net, im, fm, str(fig_path))
+            # Rendered at 600 dpi (MDPI figure requirement) via the graphviz visualizer.
+            from pm4py.visualization.petri_net import visualizer as pn_vis
+            gviz = pn_vis.apply(net, im, fm, parameters={"format": "png"})
+            gviz.graph_attr["dpi"] = "600"
+            pn_vis.save(gviz, str(fig_path))
         except Exception:
             fig_path = None
 
