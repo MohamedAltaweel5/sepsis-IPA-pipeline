@@ -1,0 +1,1497 @@
+{
+  "prep": {
+    "log_totals": {
+      "n_cases": 1050,
+      "n_events": 15214,
+      "n_activities": 16,
+      "different_resources_total": 1,
+      "different_transitions_total": 1
+    },
+    "cohort": {
+      "Hypotensie_true": 54,
+      "InfectionSuspected_true": 848,
+      "SIRSCriteria2OrMore_true": 853
+    },
+    "quality": {
+      "negative_interval_cases": [
+        "GW",
+        "LZ"
+      ],
+      "negative_interval_excluded_from_timing": 2,
+      "unknown_group_events": 294,
+      "unknown_group_activities": [
+        "Return ER"
+      ],
+      "cases_with_antibiotics": 823,
+      "untreated_cases": 227,
+      "total_cases": 1050
+    },
+    "scope_er_core": {
+      "n_events": 5542,
+      "n_variants": 69,
+      "n_cases": 1050,
+      "dominant_variant": [
+        "ER Registration",
+        "ER Triage",
+        "ER Sepsis Triage",
+        "LacticAcid",
+        "IV Liquid",
+        "IV Antibiotics"
+      ],
+      "dominant_count": 289,
+      "dominant_pct": 27.5,
+      "top_variants": [
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "LacticAcid",
+            "IV Liquid",
+            "IV Antibiotics"
+          ],
+          "count": 289,
+          "pct": 27.5
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage"
+          ],
+          "count": 159,
+          "pct": 15.1
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "IV Liquid",
+            "LacticAcid",
+            "IV Antibiotics"
+          ],
+          "count": 102,
+          "pct": 9.7
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "IV Liquid",
+            "IV Antibiotics",
+            "LacticAcid"
+          ],
+          "count": 78,
+          "pct": 7.4
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "LacticAcid",
+            "ER Sepsis Triage",
+            "IV Liquid",
+            "IV Antibiotics"
+          ],
+          "count": 65,
+          "pct": 6.2
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "LacticAcid",
+            "IV Antibiotics"
+          ],
+          "count": 61,
+          "pct": 5.8
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "LacticAcid"
+          ],
+          "count": 59,
+          "pct": 5.6
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "LacticAcid",
+            "IV Antibiotics",
+            "IV Liquid"
+          ],
+          "count": 42,
+          "pct": 4.0
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "IV Liquid",
+            "IV Antibiotics"
+          ],
+          "count": 25,
+          "pct": 2.4
+        },
+        {
+          "variant": [
+            "ER Registration",
+            "LacticAcid",
+            "ER Triage",
+            "ER Sepsis Triage",
+            "IV Liquid",
+            "IV Antibiotics"
+          ],
+          "count": 19,
+          "pct": 1.8
+        }
+      ]
+    },
+    "baseline_benchmark": {
+      "cases_with_antibiotics": 823,
+      "untreated_cases": 227,
+      "tta_median_h": 1.883,
+      "tta_mean_h": 2.191,
+      "tta_p25_h": 0.641,
+      "tta_p75_h": 3.162,
+      "tta_p90_h": 4.216,
+      "tta_max_h": 27.033,
+      "compliance_1h_n": 284,
+      "compliance_1h_pct": 34.5,
+      "compliance_3h_n": 595,
+      "compliance_3h_pct": 72.3,
+      "ephase_n": 810,
+      "ephase_median_h": 3.219,
+      "ephase_mean_h": 3.379
+    }
+  },
+  "phase1": {
+    "discovery": {
+      "model_file": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/models/er_core_petri_net.pnml",
+      "model_figure": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_1_discovered_petri_net.png",
+      "structure": {
+        "n_places": 15,
+        "n_transitions": 16,
+        "n_arcs": 40,
+        "n_silent_transitions": 10,
+        "sound": true
+      },
+      "conformance": {
+        "log_fitness": 1.0,
+        "percentage_fit_traces": 100.0,
+        "precision": 0.8452
+      },
+      "discovery_algorithm": "Inductive Miner (IM, noise_threshold=0.0)"
+    },
+    "bottlenecks": [
+      {
+        "from": "LacticAcid",
+        "to": "LacticAcid",
+        "mean_delay_h": 3.388,
+        "median_delay_h": 1.925,
+        "frequency": 8
+      },
+      {
+        "from": "ER Sepsis Triage",
+        "to": "ER Registration",
+        "mean_delay_h": 2.086,
+        "median_delay_h": 0.075,
+        "frequency": 5
+      },
+      {
+        "from": "LacticAcid",
+        "to": "IV Liquid",
+        "mean_delay_h": 1.96,
+        "median_delay_h": 1.914,
+        "frequency": 314
+      },
+      {
+        "from": "IV Antibiotics",
+        "to": "IV Liquid",
+        "mean_delay_h": 1.9,
+        "median_delay_h": 0.001,
+        "frequency": 63
+      },
+      {
+        "from": "LacticAcid",
+        "to": "IV Antibiotics",
+        "mean_delay_h": 1.695,
+        "median_delay_h": 1.628,
+        "frequency": 229
+      },
+      {
+        "from": "ER Triage",
+        "to": "ER Registration",
+        "mean_delay_h": 0.923,
+        "median_delay_h": 0.308,
+        "frequency": 5
+      },
+      {
+        "from": "IV Liquid",
+        "to": "ER Sepsis Triage",
+        "mean_delay_h": 0.859,
+        "median_delay_h": 0.289,
+        "frequency": 7
+      },
+      {
+        "from": "ER Sepsis Triage",
+        "to": "IV Antibiotics",
+        "mean_delay_h": 0.841,
+        "median_delay_h": 0.091,
+        "frequency": 83
+      }
+    ],
+    "view_figures": {
+      "dfg_frequency": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/view_dfg_frequency.png",
+      "dfg_performance": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_2_dfg_performance.png"
+    }
+  },
+  "phase2": {
+    "detection": {
+      "standard": "Surviving Sepsis Campaign 2021",
+      "provisions": [
+        {
+          "provision_id": "antibiotics_1h",
+          "activity": "IV Antibiotics",
+          "metric": "interval_from_reference",
+          "strength": "Strong",
+          "weight": 1.0,
+          "target_hours": 1.0,
+          "population": 823,
+          "compliant_n": 284,
+          "compliance_pct": 34.5,
+          "deviation_n": 539,
+          "deviation_median_h_over": 1.764,
+          "deviation_max_h_over": 26.033,
+          "weighted_deviation_h": 1128.5,
+          "untreated_note": "227 cases never receive IV Antibiotics; interval undefined, excluded from timing (not counted as deviations)."
+        },
+        {
+          "provision_id": "fluids_3h",
+          "activity": "IV Liquid",
+          "metric": "interval_from_reference",
+          "strength": "Weak",
+          "weight": 0.5,
+          "target_hours": 3.0,
+          "population": 753,
+          "compliant_n": 588,
+          "compliance_pct": 78.1,
+          "deviation_n": 165,
+          "deviation_median_h_over": 1.096,
+          "deviation_max_h_over": 24.172,
+          "weighted_deviation_h": 412.34,
+          "untreated_note": "297 cases never receive IV Liquid; interval undefined, excluded from timing (not counted as deviations)."
+        },
+        {
+          "provision_id": "lactate_measured",
+          "activity": "LacticAcid",
+          "metric": "occurrence",
+          "strength": "Weak",
+          "weight": 0.5,
+          "population": 1050,
+          "compliant_n": 860,
+          "compliance_pct": 81.9,
+          "deviation_n": 190,
+          "weighted_deviation": 95.0,
+          "target": "performed"
+        },
+        {
+          "provision_id": "sepsis_screening",
+          "activity": "ER Sepsis Triage",
+          "metric": "occurrence",
+          "strength": "Strong",
+          "weight": 1.0,
+          "population": 1050,
+          "compliant_n": 1049,
+          "compliance_pct": 99.9,
+          "deviation_n": 1,
+          "weighted_deviation": 1.0,
+          "target": "performed"
+        }
+      ],
+      "ranked_by_weighted_deviation": [
+        "antibiotics_1h",
+        "fluids_3h",
+        "lactate_measured",
+        "sepsis_screening"
+      ],
+      "undiagnosable": [
+        {
+          "provision": "Blood cultures before antimicrobials",
+          "reason": "No corresponding activity in the log."
+        },
+        {
+          "provision": "Vasopressors for MAP >= 65 mmHg",
+          "reason": "No corresponding activity in the log."
+        },
+        {
+          "provision": "30 mL/kg crystalloid volume adequacy",
+          "reason": "IV Liquid records no volume; only timing is observable."
+        }
+      ]
+    },
+    "generation": {
+      "signatures": {
+        "both_lactate_and_antibiotics": 769,
+        "lactate_before_antibiotics": 649,
+        "lactate_before_antibiotics_pct": 84.4,
+        "antibiotics_before_lactate": 120,
+        "fluid_before_antibiotics": 631,
+        "no_treatment_cases": 236,
+        "infection_suspected_and_lactate_first": 642
+      },
+      "candidates": [
+        {
+          "candidate_id": "C1_resequence_abx_before_lactate",
+          "heuristic": "resequencing",
+          "heuristic_name": "Resequencing (task order optimisation)",
+          "originating_deviation": "antibiotics_1h",
+          "precondition_evidence": {
+            "lactate_before_antibiotics": 649,
+            "of_cases_with_both": 769,
+            "pct": 84.4,
+            "lactate_is_precondition": false
+          },
+          "modification": "Reorder the treatment path so IV Antibiotics is not blocked by LacticAcid: administer antibiotics on recognition; draw lactate without gating antibiotics on it.",
+          "transform": {
+            "type": "reorder",
+            "move": "IV Antibiotics",
+            "before": "LacticAcid"
+          },
+          "affected_cases": 649
+        },
+        {
+          "candidate_id": "C2_parallel_lactate_antibiotics",
+          "heuristic": "parallelism",
+          "heuristic_name": "Parallelism (concurrent execution)",
+          "originating_deviation": "antibiotics_1h",
+          "precondition_evidence": {
+            "sequential_independent_pairs": 769,
+            "lactate_is_precondition": false
+          },
+          "modification": "Place LacticAcid and IV Antibiotics on parallel branches (AND-split/join) so the lactate draw does not delay antibiotics.",
+          "transform": {
+            "type": "parallelize",
+            "activities": [
+              "LacticAcid",
+              "IV Antibiotics"
+            ]
+          },
+          "affected_cases": 769
+        },
+        {
+          "candidate_id": "C3_triage_infection_expedite",
+          "heuristic": "triage",
+          "heuristic_name": "Triage (case differentiation)",
+          "originating_deviation": "antibiotics_1h",
+          "precondition_evidence": {
+            "differentiator": "InfectionSuspected (case-level, from ER Registration)",
+            "expedited_cohort_size": 642,
+            "no_treatment_cases_separated": 236
+          },
+          "modification": "Attribute-based triage: route InfectionSuspected=true cases to an expedited lane that decouples antibiotics from the lactate wait. Functional differentiation on a recorded screening attribute - not a queue/contention effect.",
+          "transform": {
+            "type": "triage_split",
+            "attribute": "InfectionSuspected",
+            "expedite": "decouple_antibiotics"
+          },
+          "affected_cases": 642
+        },
+        {
+          "candidate_id": "C4_eliminate_lactate_from_path",
+          "heuristic": "task_elimination",
+          "heuristic_name": "Task elimination",
+          "originating_deviation": "antibiotics_1h",
+          "precondition_evidence": {
+            "lactate_on_delay_path": 649,
+            "lactate_has_ssc_time_target": false,
+            "lactate_is_antibiotics_precondition": false,
+            "clinical_caveat": "LacticAcid IS a (weak) SSC measurement provision; removing it reduces guideline conformance (quality)."
+          },
+          "modification": "Remove LacticAcid from the critical path to antibiotics so it no longer delays treatment. Time benefit at a quality (conformance) cost.",
+          "transform": {
+            "type": "eliminate",
+            "activity": "LacticAcid"
+          },
+          "affected_cases": 649
+        }
+      ],
+      "unmatched_heuristics": [],
+      "catalogue_used": {
+        "resequencing": "Resequencing (task order optimisation)",
+        "parallelism": "Parallelism (concurrent execution)",
+        "task_elimination": "Task elimination",
+        "triage": "Triage (case differentiation)"
+      }
+    },
+    "filtering": {
+      "rules_applied": [
+        "registration_first",
+        "triage_before_treatment",
+        "screening_before_antibiotics"
+      ],
+      "n_permitted": 4,
+      "n_rejected": 0,
+      "rejected": []
+    },
+    "permitted_candidates": [
+      {
+        "candidate_id": "C1_resequence_abx_before_lactate",
+        "heuristic": "resequencing",
+        "heuristic_name": "Resequencing (task order optimisation)",
+        "originating_deviation": "antibiotics_1h",
+        "precondition_evidence": {
+          "lactate_before_antibiotics": 649,
+          "of_cases_with_both": 769,
+          "pct": 84.4,
+          "lactate_is_precondition": false
+        },
+        "modification": "Reorder the treatment path so IV Antibiotics is not blocked by LacticAcid: administer antibiotics on recognition; draw lactate without gating antibiotics on it.",
+        "transform": {
+          "type": "reorder",
+          "move": "IV Antibiotics",
+          "before": "LacticAcid"
+        },
+        "affected_cases": 649,
+        "permitted": true,
+        "violated_rules": []
+      },
+      {
+        "candidate_id": "C2_parallel_lactate_antibiotics",
+        "heuristic": "parallelism",
+        "heuristic_name": "Parallelism (concurrent execution)",
+        "originating_deviation": "antibiotics_1h",
+        "precondition_evidence": {
+          "sequential_independent_pairs": 769,
+          "lactate_is_precondition": false
+        },
+        "modification": "Place LacticAcid and IV Antibiotics on parallel branches (AND-split/join) so the lactate draw does not delay antibiotics.",
+        "transform": {
+          "type": "parallelize",
+          "activities": [
+            "LacticAcid",
+            "IV Antibiotics"
+          ]
+        },
+        "affected_cases": 769,
+        "permitted": true,
+        "violated_rules": []
+      },
+      {
+        "candidate_id": "C3_triage_infection_expedite",
+        "heuristic": "triage",
+        "heuristic_name": "Triage (case differentiation)",
+        "originating_deviation": "antibiotics_1h",
+        "precondition_evidence": {
+          "differentiator": "InfectionSuspected (case-level, from ER Registration)",
+          "expedited_cohort_size": 642,
+          "no_treatment_cases_separated": 236
+        },
+        "modification": "Attribute-based triage: route InfectionSuspected=true cases to an expedited lane that decouples antibiotics from the lactate wait. Functional differentiation on a recorded screening attribute - not a queue/contention effect.",
+        "transform": {
+          "type": "triage_split",
+          "attribute": "InfectionSuspected",
+          "expedite": "decouple_antibiotics"
+        },
+        "affected_cases": 642,
+        "permitted": true,
+        "violated_rules": []
+      },
+      {
+        "candidate_id": "C4_eliminate_lactate_from_path",
+        "heuristic": "task_elimination",
+        "heuristic_name": "Task elimination",
+        "originating_deviation": "antibiotics_1h",
+        "precondition_evidence": {
+          "lactate_on_delay_path": 649,
+          "lactate_has_ssc_time_target": false,
+          "lactate_is_antibiotics_precondition": false,
+          "clinical_caveat": "LacticAcid IS a (weak) SSC measurement provision; removing it reduces guideline conformance (quality)."
+        },
+        "modification": "Remove LacticAcid from the critical path to antibiotics so it no longer delays treatment. Time benefit at a quality (conformance) cost.",
+        "transform": {
+          "type": "eliminate",
+          "activity": "LacticAcid"
+        },
+        "affected_cases": 649,
+        "permitted": true,
+        "violated_rules": []
+      }
+    ],
+    "scoring": {
+      "weights": {
+        "time": 0.5,
+        "quality": 0.3,
+        "cost": 0.1,
+        "flexibility": 0.1
+      },
+      "ranking": [
+        {
+          "candidate_id": "C3_triage_infection_expedite",
+          "heuristic": "triage",
+          "catalogue_effects": {
+            "time": 1,
+            "cost": -1,
+            "quality": 1,
+            "flexibility": 1
+          },
+          "reach_magnitude": 0.835,
+          "per_dimension_contribution": {
+            "time": 0.4174,
+            "quality": 0.2505,
+            "cost": -0.0835,
+            "flexibility": 0.0835
+          },
+          "score": 0.6679
+        },
+        {
+          "candidate_id": "C1_resequence_abx_before_lactate",
+          "heuristic": "resequencing",
+          "catalogue_effects": {
+            "time": 1,
+            "cost": 0,
+            "quality": 0,
+            "flexibility": 0
+          },
+          "reach_magnitude": 0.844,
+          "per_dimension_contribution": {
+            "time": 0.422,
+            "quality": 0.0,
+            "cost": 0.0,
+            "flexibility": 0.0
+          },
+          "score": 0.422
+        },
+        {
+          "candidate_id": "C4_eliminate_lactate_from_path",
+          "heuristic": "task_elimination",
+          "catalogue_effects": {
+            "time": 1,
+            "cost": 1,
+            "quality": -1,
+            "flexibility": 1
+          },
+          "reach_magnitude": 0.844,
+          "per_dimension_contribution": {
+            "time": 0.422,
+            "quality": -0.2532,
+            "cost": 0.0844,
+            "flexibility": 0.0844
+          },
+          "score": 0.3376
+        },
+        {
+          "candidate_id": "C2_parallel_lactate_antibiotics",
+          "heuristic": "parallelism",
+          "catalogue_effects": {
+            "time": 1,
+            "cost": -1,
+            "quality": 0,
+            "flexibility": -1
+          },
+          "reach_magnitude": 1.0,
+          "per_dimension_contribution": {
+            "time": 0.5,
+            "quality": 0.0,
+            "cost": -0.1,
+            "flexibility": -0.1
+          },
+          "score": 0.3
+        }
+      ],
+      "ranked_ids": [
+        "C3_triage_infection_expedite",
+        "C1_resequence_abx_before_lactate",
+        "C4_eliminate_lactate_from_path",
+        "C2_parallel_lactate_antibiotics"
+      ],
+      "sensitivity": {
+        "time_only": [
+          "C2_parallel_lactate_antibiotics",
+          "C1_resequence_abx_before_lactate",
+          "C4_eliminate_lactate_from_path",
+          "C3_triage_infection_expedite"
+        ],
+        "balanced": [
+          "C4_eliminate_lactate_from_path",
+          "C3_triage_infection_expedite",
+          "C1_resequence_abx_before_lactate",
+          "C2_parallel_lactate_antibiotics"
+        ],
+        "quality_led": [
+          "C3_triage_infection_expedite",
+          "C1_resequence_abx_before_lactate",
+          "C2_parallel_lactate_antibiotics",
+          "C4_eliminate_lactate_from_path"
+        ],
+        "cost_constrained": [
+          "C4_eliminate_lactate_from_path",
+          "C1_resequence_abx_before_lactate",
+          "C3_triage_infection_expedite",
+          "C2_parallel_lactate_antibiotics"
+        ]
+      },
+      "sensitivity_summary": {
+        "base_ranking": [
+          "C3_triage_infection_expedite",
+          "C1_resequence_abx_before_lactate",
+          "C4_eliminate_lactate_from_path",
+          "C2_parallel_lactate_antibiotics"
+        ],
+        "base_top": "C3_triage_infection_expedite",
+        "profiles": {
+          "time_only": {
+            "ranking": [
+              "C2_parallel_lactate_antibiotics",
+              "C1_resequence_abx_before_lactate",
+              "C4_eliminate_lactate_from_path",
+              "C3_triage_infection_expedite"
+            ],
+            "top": "C2_parallel_lactate_antibiotics",
+            "top_changed_vs_base": true,
+            "full_ranking_changed_vs_base": true
+          },
+          "balanced": {
+            "ranking": [
+              "C4_eliminate_lactate_from_path",
+              "C3_triage_infection_expedite",
+              "C1_resequence_abx_before_lactate",
+              "C2_parallel_lactate_antibiotics"
+            ],
+            "top": "C4_eliminate_lactate_from_path",
+            "top_changed_vs_base": true,
+            "full_ranking_changed_vs_base": true
+          },
+          "quality_led": {
+            "ranking": [
+              "C3_triage_infection_expedite",
+              "C1_resequence_abx_before_lactate",
+              "C2_parallel_lactate_antibiotics",
+              "C4_eliminate_lactate_from_path"
+            ],
+            "top": "C3_triage_infection_expedite",
+            "top_changed_vs_base": false,
+            "full_ranking_changed_vs_base": true
+          },
+          "cost_constrained": {
+            "ranking": [
+              "C4_eliminate_lactate_from_path",
+              "C1_resequence_abx_before_lactate",
+              "C3_triage_infection_expedite",
+              "C2_parallel_lactate_antibiotics"
+            ],
+            "top": "C4_eliminate_lactate_from_path",
+            "top_changed_vs_base": true,
+            "full_ranking_changed_vs_base": true
+          }
+        },
+        "top_stable_across_all_profiles": false,
+        "profiles_that_change_the_top": [
+          "time_only",
+          "balanced",
+          "cost_constrained"
+        ],
+        "conclusion": "Top candidate is NOT invariant: ['time_only', 'balanced', 'cost_constrained'] re-rank the top. "
+      },
+      "top_candidate_stable_across_profiles": false,
+      "label": "CANDIDATES, not recommendations (ex-ante, indicative; Phase III decides)"
+    }
+  },
+  "phase3": {
+    "stage1_fidelity": {
+      "procedure": "repeated hold-out (k splits x replications), gated on mean",
+      "k_splits": 8,
+      "split_seeds": [
+        1,
+        7,
+        13,
+        42,
+        99,
+        123,
+        777,
+        2024
+      ],
+      "n_replications_per_split": 3,
+      "fidelity_mean": {
+        "control_flow_tv_distance": 0.0521,
+        "cycle_time_emd_h": 0.2674,
+        "cycle_time_relative_emd": 0.1356,
+        "tta_emd_h": 0.2287,
+        "sim_cycle_mean_h": 1.9002,
+        "real_cycle_mean_h": 1.9795,
+        "sim_tta_median_h": 1.8563,
+        "real_tta_median_h": 2.0061
+      },
+      "fidelity_std": {
+        "control_flow_tv_distance": 0.0054,
+        "cycle_time_emd_h": 0.0569,
+        "cycle_time_relative_emd": 0.0307,
+        "tta_emd_h": 0.043,
+        "sim_cycle_mean_h": 0.0899,
+        "real_cycle_mean_h": 0.1342,
+        "sim_tta_median_h": 0.1246,
+        "real_tta_median_h": 0.1362
+      },
+      "gate": {
+        "thresholds": {
+          "control_flow_tv_max": 0.25,
+          "cycle_time_relative_emd_max": 0.2
+        },
+        "control_flow_ok": true,
+        "cycle_time_ok": true,
+        "gate_passed": true,
+        "verdict": "Baseline is an adequate instrument; proceed to candidate evaluation."
+      },
+      "per_split_gate_pass_fraction": 0.875,
+      "per_split": [
+        {
+          "seed": 1,
+          "cycle_time_relative_emd": 0.1242,
+          "control_flow_tv_distance": 0.058,
+          "gate_passed": true
+        },
+        {
+          "seed": 7,
+          "cycle_time_relative_emd": 0.1269,
+          "control_flow_tv_distance": 0.0544,
+          "gate_passed": true
+        },
+        {
+          "seed": 13,
+          "cycle_time_relative_emd": 0.1041,
+          "control_flow_tv_distance": 0.0428,
+          "gate_passed": true
+        },
+        {
+          "seed": 42,
+          "cycle_time_relative_emd": 0.2016,
+          "control_flow_tv_distance": 0.0479,
+          "gate_passed": false
+        },
+        {
+          "seed": 99,
+          "cycle_time_relative_emd": 0.1668,
+          "control_flow_tv_distance": 0.0494,
+          "gate_passed": true
+        },
+        {
+          "seed": 123,
+          "cycle_time_relative_emd": 0.1099,
+          "control_flow_tv_distance": 0.0608,
+          "gate_passed": true
+        },
+        {
+          "seed": 777,
+          "cycle_time_relative_emd": 0.1163,
+          "control_flow_tv_distance": 0.0538,
+          "gate_passed": true
+        },
+        {
+          "seed": 2024,
+          "cycle_time_relative_emd": 0.1353,
+          "control_flow_tv_distance": 0.05,
+          "gate_passed": true
+        }
+      ],
+      "failed_splits": [
+        {
+          "seed": 42,
+          "cycle_time_relative_emd": 0.2016,
+          "exceeded_threshold_by": 0.0016
+        }
+      ],
+      "baseline_model_provenance": {
+        "n_model_variants_tried_before_gate_passed": 2,
+        "variants": [
+          {
+            "variant": 1,
+            "sampler": "independent per-edge interval bootstrap",
+            "outcome": "REJECTED",
+            "reason": "Broke within-case timing correlation and pooled an edge across fast/slow variants; overestimated cycle time (single-split cycle-time relative EMD ~0.22-0.30 > 0.20 gate)."
+          },
+          {
+            "variant": 2,
+            "sampler": "block-bootstrap of real per-variant interval vectors",
+            "outcome": "ACCEPTED",
+            "reason": "Preserves joint within-case timing; cycle-time relative EMD 0.136 (mean over 8 splits) <= 0.20. A more faithful instrument, not a threshold change."
+          }
+        ],
+        "procedure_fix": "Single 70/30 split was high-variance (heavy-tailed cycle time, max ~27 h); moved to repeated 8-split averaging, gated on the mean, to remove split luck rather than select a favourable seed."
+      }
+    },
+    "stage2_evaluation": {
+      "evaluated": true,
+      "conditions": {
+        "n_per_rep": 1000,
+        "replications": 20,
+        "pairing": "same sampled real cases, baseline vs candidate"
+      },
+      "candidates": [
+        {
+          "candidate_id": "C1_resequence_abx_before_lactate",
+          "heuristic": "resequencing",
+          "originating_deviation": "antibiotics_1h",
+          "n_per_rep": 1000,
+          "replications": 20,
+          "seeds": [
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            509,
+            510,
+            511,
+            512,
+            513,
+            514,
+            515,
+            516,
+            517,
+            518,
+            519
+          ],
+          "baseline_compliance_1h": 34.325,
+          "predicted_compliance_1h": 80.371,
+          "predicted_compliance_1h_sd": 1.493,
+          "baseline_median_tta_h": 1.898,
+          "predicted_median_tta_h": 0.39,
+          "baseline_scoped_cycle_time_h": 1.921,
+          "predicted_scoped_cycle_time_h": 1.556,
+          "predicted_risk_reduction": 53.59,
+          "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
+          "risk_components": {
+            "denominator": "fixed: total baseline risk across all governed provisions",
+            "base_risk": 0.856,
+            "candidate_risk": 0.3973,
+            "provisions": [
+              {
+                "provision_id": "antibiotics_1h",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.655,
+                "candidate_noncompliant": 0.1963,
+                "status": "target (improved)"
+              },
+              {
+                "provision_id": "fluids_3h",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.219,
+                "candidate_noncompliant": 0.219,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "lactate_measured",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.181,
+                "candidate_noncompliant": 0.181,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "sepsis_screening",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.001,
+                "candidate_noncompliant": 0.001,
+                "status": "unchanged"
+              }
+            ],
+            "damaged_detail": {}
+          },
+          "transfer_gap": {
+            "tta_reduction_pct": 79.5,
+            "scoped_cycle_time_reduction_pct": 19.0,
+            "gap_pp": 60.5,
+            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 19.0%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+          },
+          "binding_constraint_shift": {
+            "distribution_pct": {
+              "IV Liquid": 45.0,
+              "LacticAcid": 30.8,
+              "IV Antibiotics": 21.8,
+              "ER Sepsis Triage": 2.3,
+              "ER Triage": 0.1
+            },
+            "note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 30.8%, IV Antibiotics 21.8%, ER Sepsis Triage 2.3%, ER Triage 0.1%"
+          },
+          "emergent_effect_note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 30.8%, IV Antibiotics 21.8%, ER Sepsis Triage 2.3%, ER Triage 0.1%",
+          "saturation_check": {
+            "effective_affected_n": 649,
+            "affected_baseline_compliance_pct": 24.3,
+            "affected_predicted_compliance_pct": 80.7,
+            "unaffected_n": 162,
+            "unaffected_baseline_compliance_pct": 75.9,
+            "antibiotics_already_first_unchanged_n": 120,
+            "note": "Aggregate compliance is driven by the effective affected set; unaffected cases (incl. antibiotics-already-first) are unchanged. Identical aggregates across C1/C2/C4 are real: they share the same effective affected set and re-timing anchor."
+          },
+          "passed_stage2": true,
+          "label": "MODEL-PREDICTED, not empirically confirmed (C6)."
+        },
+        {
+          "candidate_id": "C2_parallel_lactate_antibiotics",
+          "heuristic": "parallelism",
+          "originating_deviation": "antibiotics_1h",
+          "n_per_rep": 1000,
+          "replications": 20,
+          "seeds": [
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            509,
+            510,
+            511,
+            512,
+            513,
+            514,
+            515,
+            516,
+            517,
+            518,
+            519
+          ],
+          "baseline_compliance_1h": 34.325,
+          "predicted_compliance_1h": 80.371,
+          "predicted_compliance_1h_sd": 1.493,
+          "baseline_median_tta_h": 1.898,
+          "predicted_median_tta_h": 0.39,
+          "baseline_scoped_cycle_time_h": 1.921,
+          "predicted_scoped_cycle_time_h": 1.556,
+          "predicted_risk_reduction": 53.59,
+          "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
+          "risk_components": {
+            "denominator": "fixed: total baseline risk across all governed provisions",
+            "base_risk": 0.856,
+            "candidate_risk": 0.3973,
+            "provisions": [
+              {
+                "provision_id": "antibiotics_1h",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.655,
+                "candidate_noncompliant": 0.1963,
+                "status": "target (improved)"
+              },
+              {
+                "provision_id": "fluids_3h",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.219,
+                "candidate_noncompliant": 0.219,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "lactate_measured",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.181,
+                "candidate_noncompliant": 0.181,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "sepsis_screening",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.001,
+                "candidate_noncompliant": 0.001,
+                "status": "unchanged"
+              }
+            ],
+            "damaged_detail": {}
+          },
+          "transfer_gap": {
+            "tta_reduction_pct": 79.5,
+            "scoped_cycle_time_reduction_pct": 19.0,
+            "gap_pp": 60.5,
+            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 19.0%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+          },
+          "binding_constraint_shift": {
+            "distribution_pct": {
+              "IV Liquid": 45.0,
+              "LacticAcid": 30.8,
+              "IV Antibiotics": 21.8,
+              "ER Sepsis Triage": 2.3,
+              "ER Triage": 0.1
+            },
+            "note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 30.8%, IV Antibiotics 21.8%, ER Sepsis Triage 2.3%, ER Triage 0.1%"
+          },
+          "emergent_effect_note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 30.8%, IV Antibiotics 21.8%, ER Sepsis Triage 2.3%, ER Triage 0.1%",
+          "saturation_check": {
+            "effective_affected_n": 649,
+            "affected_baseline_compliance_pct": 24.3,
+            "affected_predicted_compliance_pct": 80.7,
+            "unaffected_n": 162,
+            "unaffected_baseline_compliance_pct": 75.9,
+            "antibiotics_already_first_unchanged_n": 120,
+            "note": "Aggregate compliance is driven by the effective affected set; unaffected cases (incl. antibiotics-already-first) are unchanged. Identical aggregates across C1/C2/C4 are real: they share the same effective affected set and re-timing anchor."
+          },
+          "passed_stage2": true,
+          "label": "MODEL-PREDICTED, not empirically confirmed (C6)."
+        },
+        {
+          "candidate_id": "C4_eliminate_lactate_from_path",
+          "heuristic": "task_elimination",
+          "originating_deviation": "antibiotics_1h",
+          "n_per_rep": 1000,
+          "replications": 20,
+          "seeds": [
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            509,
+            510,
+            511,
+            512,
+            513,
+            514,
+            515,
+            516,
+            517,
+            518,
+            519
+          ],
+          "baseline_compliance_1h": 34.325,
+          "predicted_compliance_1h": 80.371,
+          "predicted_compliance_1h_sd": 1.493,
+          "baseline_median_tta_h": 1.898,
+          "predicted_median_tta_h": 0.39,
+          "baseline_scoped_cycle_time_h": 1.921,
+          "predicted_scoped_cycle_time_h": 1.507,
+          "predicted_risk_reduction": 17.49,
+          "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
+          "risk_components": {
+            "denominator": "fixed: total baseline risk across all governed provisions",
+            "base_risk": 0.856,
+            "candidate_risk": 0.7063,
+            "provisions": [
+              {
+                "provision_id": "antibiotics_1h",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.655,
+                "candidate_noncompliant": 0.1963,
+                "status": "target (improved)"
+              },
+              {
+                "provision_id": "fluids_3h",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.219,
+                "candidate_noncompliant": 0.219,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "lactate_measured",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.181,
+                "candidate_noncompliant": 0.799,
+                "status": "damaged (path-local)"
+              },
+              {
+                "provision_id": "sepsis_screening",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.001,
+                "candidate_noncompliant": 0.001,
+                "status": "unchanged"
+              }
+            ],
+            "damaged_detail": {
+              "lactate_measured": {
+                "candidate_noncompliant": 0.799,
+                "n_measuring_baseline": 860,
+                "n_lost_path_local": 649,
+                "residual_compliance_pct": 20.1,
+                "note": "LacticAcid removed on the antibiotics path (649 cases); 211 cases still measure it -> lactate_measured compliance 81.9% -> 20.1% (path-local, NOT global 0%)."
+              }
+            }
+          },
+          "transfer_gap": {
+            "tta_reduction_pct": 79.5,
+            "scoped_cycle_time_reduction_pct": 21.6,
+            "gap_pp": 57.9,
+            "interpretation": "Time-to-antibiotics improves 79.5% but the ER-core scoped cycle time only 21.6%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+          },
+          "binding_constraint_shift": {
+            "distribution_pct": {
+              "IV Antibiotics": 48.7,
+              "IV Liquid": 47.0,
+              "ER Sepsis Triage": 2.4,
+              "LacticAcid": 1.3,
+              "ER Triage": 0.6
+            },
+            "note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Antibiotics 48.7%, IV Liquid 47.0%, ER Sepsis Triage 2.4%, LacticAcid 1.3%, ER Triage 0.6%"
+          },
+          "emergent_effect_note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Antibiotics 48.7%, IV Liquid 47.0%, ER Sepsis Triage 2.4%, LacticAcid 1.3%, ER Triage 0.6%",
+          "saturation_check": {
+            "effective_affected_n": 649,
+            "affected_baseline_compliance_pct": 24.3,
+            "affected_predicted_compliance_pct": 80.7,
+            "unaffected_n": 162,
+            "unaffected_baseline_compliance_pct": 75.9,
+            "antibiotics_already_first_unchanged_n": 120,
+            "note": "Aggregate compliance is driven by the effective affected set; unaffected cases (incl. antibiotics-already-first) are unchanged. Identical aggregates across C1/C2/C4 are real: they share the same effective affected set and re-timing anchor."
+          },
+          "passed_stage2": true,
+          "label": "MODEL-PREDICTED, not empirically confirmed (C6)."
+        },
+        {
+          "candidate_id": "C3_triage_infection_expedite",
+          "heuristic": "triage",
+          "originating_deviation": "antibiotics_1h",
+          "n_per_rep": 1000,
+          "replications": 20,
+          "seeds": [
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            509,
+            510,
+            511,
+            512,
+            513,
+            514,
+            515,
+            516,
+            517,
+            518,
+            519
+          ],
+          "baseline_compliance_1h": 34.325,
+          "predicted_compliance_1h": 79.836,
+          "predicted_compliance_1h_sd": 1.447,
+          "baseline_median_tta_h": 1.898,
+          "predicted_median_tta_h": 0.391,
+          "baseline_scoped_cycle_time_h": 1.921,
+          "predicted_scoped_cycle_time_h": 1.565,
+          "predicted_risk_reduction": 52.97,
+          "risk_reduction_formula": "risk = SUM over ALL governed provisions of weight * noncompliant_fraction; risk_reduction% = 100*(base_risk - cand_risk)/base_risk with base_risk FIXED across candidates. Weights: antibiotics_1h=1.0, fluids_3h=lactate_measured=0.5, sepsis_screening=1.0. Eliminating an activity damages its provision PATH-LOCALLY (residual compliance from cases that still perform it, not global 0%).",
+          "risk_components": {
+            "denominator": "fixed: total baseline risk across all governed provisions",
+            "base_risk": 0.856,
+            "candidate_risk": 0.4026,
+            "provisions": [
+              {
+                "provision_id": "antibiotics_1h",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.655,
+                "candidate_noncompliant": 0.2016,
+                "status": "target (improved)"
+              },
+              {
+                "provision_id": "fluids_3h",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.219,
+                "candidate_noncompliant": 0.219,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "lactate_measured",
+                "weight": 0.5,
+                "baseline_noncompliant": 0.181,
+                "candidate_noncompliant": 0.181,
+                "status": "unchanged"
+              },
+              {
+                "provision_id": "sepsis_screening",
+                "weight": 1.0,
+                "baseline_noncompliant": 0.001,
+                "candidate_noncompliant": 0.001,
+                "status": "unchanged"
+              }
+            ],
+            "damaged_detail": {}
+          },
+          "transfer_gap": {
+            "tta_reduction_pct": 79.4,
+            "scoped_cycle_time_reduction_pct": 18.5,
+            "gap_pp": 60.9,
+            "interpretation": "Time-to-antibiotics improves 79.4% but the ER-core scoped cycle time only 18.5%: the gain is largely local to the governed step; the binding constraint transfers to other activities. (Scoped cycle time, NOT the Registration->Admission emergency phase.)"
+          },
+          "binding_constraint_shift": {
+            "distribution_pct": {
+              "IV Liquid": 45.0,
+              "LacticAcid": 31.0,
+              "IV Antibiotics": 21.6,
+              "ER Sepsis Triage": 2.3,
+              "ER Triage": 0.1
+            },
+            "note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 31.0%, IV Antibiotics 21.6%, ER Sepsis Triage 2.3%, ER Triage 0.1%"
+          },
+          "emergent_effect_note": "Activity now ending the case after redesign (control-flow critical-path shift, not a capacity/queue displacement): IV Liquid 45.0%, LacticAcid 31.0%, IV Antibiotics 21.6%, ER Sepsis Triage 2.3%, ER Triage 0.1%",
+          "saturation_check": {
+            "effective_affected_n": 642,
+            "affected_baseline_compliance_pct": 24.5,
+            "affected_predicted_compliance_pct": 80.3,
+            "unaffected_n": 169,
+            "unaffected_baseline_compliance_pct": 73.4,
+            "antibiotics_already_first_unchanged_n": 120,
+            "note": "Aggregate compliance is driven by the effective affected set; unaffected cases (incl. antibiotics-already-first) are unchanged. Identical aggregates across C1/C2/C4 are real: they share the same effective affected set and re-timing anchor."
+          },
+          "passed_stage2": true,
+          "label": "MODEL-PREDICTED, not empirically confirmed (C6)."
+        }
+      ],
+      "equivalences": [
+        {
+          "candidates": [
+            "C1_resequence_abx_before_lactate",
+            "C2_parallel_lactate_antibiotics"
+          ],
+          "compliance_equivalent": true,
+          "note": "Indistinguishable on predicted 1-hour compliance; they differ on emergency-phase reduction / binding-constraint shift (see each candidate) and on the Devil's Quadrangle (Phase II) - distinguish there. C1/C2 also coincide mechanistically: lactate precedes antibiotics in all affected cases, so both place antibiotics at the same point; prefer the lower-cost/lower-rigidity option (resequencing over parallelism)."
+        },
+        {
+          "candidates": [
+            "C1_resequence_abx_before_lactate",
+            "C4_eliminate_lactate_from_path"
+          ],
+          "compliance_equivalent": true,
+          "note": "Indistinguishable on predicted 1-hour compliance; they differ on emergency-phase reduction / binding-constraint shift (see each candidate) and on the Devil's Quadrangle (Phase II) - distinguish there."
+        },
+        {
+          "candidates": [
+            "C2_parallel_lactate_antibiotics",
+            "C4_eliminate_lactate_from_path"
+          ],
+          "compliance_equivalent": true,
+          "note": "Indistinguishable on predicted 1-hour compliance; they differ on emergency-phase reduction / binding-constraint shift (see each candidate) and on the Devil's Quadrangle (Phase II) - distinguish there."
+        }
+      ],
+      "fluids_compliance_check": {
+        "bases": {
+          "scoped_er_window": {
+            "population": 722,
+            "baseline_compliance_3h_pct": 80.9,
+            "candidate_compliance_3h_pct": 80.9,
+            "unchanged": true,
+            "source": "computed from the simulated (scoped) cases"
+          },
+          "full_log_detection": {
+            "population": 753,
+            "baseline_compliance_3h_pct": 78.1,
+            "candidate_compliance_3h_pct": 78.1,
+            "unchanged": true,
+            "source": "detection benchmark (risk-pool basis); candidate = baseline by invariance - no candidate re-times IV Liquid"
+          }
+        },
+        "invariant_on_all_bases": true,
+        "claim": "The result is EQUALITY (baseline = candidate), which holds on BOTH populations; the level differs by population (scoped vs full-log) but the invariance does not.",
+        "note": "IV Liquid ending the case (binding_constraint_shift) means it is now LAST, not LATER - the constraint transfers without fluids compliance worsening."
+      },
+      "note": "All Phase III outputs are model-predicted, not empirical (C6)."
+    },
+    "candidate_timing_sample_bias": {
+      "followup": {
+        "group_sizes": {
+          "A_sepsis_triage_then_abx": 83,
+          "B_other_treated": 740
+        },
+        "note_on_original_markers": "SIRSCriteria2OrMore and InfectionSuspected are ~99% in both groups; they have no discriminating power and are not used here.",
+        "1_discriminating_variables": {
+          "rates": [
+            {
+              "variable": "SIRSCritTachypnea",
+              "groupA_pct": 69.9,
+              "groupB_pct": 68.5,
+              "diff_A_minus_B": 1.4,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "SIRSCritHeartRate",
+              "groupA_pct": 95.2,
+              "groupB_pct": 91.5,
+              "diff_A_minus_B": 3.7,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "SIRSCritTemperature",
+              "groupA_pct": 83.1,
+              "groupB_pct": 92.7,
+              "diff_A_minus_B": -9.6,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "SIRSCritLeucos",
+              "groupA_pct": 6.0,
+              "groupB_pct": 5.9,
+              "diff_A_minus_B": 0.1,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "DisfuncOrg",
+              "groupA_pct": 8.4,
+              "groupB_pct": 8.1,
+              "diff_A_minus_B": 0.3,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "Oligurie",
+              "groupA_pct": 4.8,
+              "groupB_pct": 2.7,
+              "diff_A_minus_B": 2.1,
+              "flag_gt_10pp": false
+            },
+            {
+              "variable": "Hypoxie",
+              "groupA_pct": 2.4,
+              "groupB_pct": 2.3,
+              "diff_A_minus_B": 0.1,
+              "flag_gt_10pp": false
+            }
+          ],
+          "age_bands_pct": {
+            "groupA": {
+              "<40": 6.0,
+              "40-59": 13.3,
+              "60-79": 31.3,
+              "80+": 36.1,
+              "unknown": 13.3
+            },
+            "groupB": {
+              "<40": 3.9,
+              "40-59": 12.6,
+              "60-79": 37.4,
+              "80+": 41.2,
+              "unknown": 4.9
+            },
+            "max_band_diff_pp": 8.4
+          },
+          "any_flag_gt_10pp": false
+        },
+        "2_process_confound_abx_org_group": {
+          "groupA_pct": {
+            "A": 92.8,
+            "L": 7.2
+          },
+          "groupB_pct": {
+            "A": 94.7,
+            "L": 5.3
+          }
+        },
+        "3_exposure_pool_share": {
+          "share_of_all_simulated_cases": {
+            "ER Sepsis Triage->abx (the 83)": 40.1,
+            "IV Liquid->abx": 10.4,
+            "LacticAcid->abx": 0.0,
+            "other anchor": 7.9,
+            "global fallback": 3.5,
+            "no draw (unaffected/untreated)": 38.1
+          },
+          "share_among_affected_cases": {
+            "ER Sepsis Triage->abx (the 83)": 64.8,
+            "IV Liquid->abx": 16.8,
+            "LacticAcid->abx": 0.0,
+            "other anchor": 12.8,
+            "global fallback": 5.7
+          },
+          "the_83_pool_share_of_all": 40.1
+        },
+        "4_exposure_sensitivity": {
+          "anchor_specific_as_used": {
+            "predicted_compliance_1h": 80.371,
+            "predicted_median_tta_h": 0.39
+          },
+          "anchor_agnostic_all_abx_arrivals": {
+            "predicted_compliance_1h": 77.774,
+            "predicted_median_tta_h": 0.331
+          },
+          "excluding_the_83_pathway": {
+            "predicted_compliance_1h": 78.53,
+            "predicted_median_tta_h": 0.324
+          },
+          "swing_pp": 1.8
+        },
+        "verdict": "Tested, not asserted. (1) On the variables that actually vary, no difference exceeds 10pp (largest: SIRSCritTemperature -9.6pp; flags: none); age differs by at most 8.4pp per band, with Group A carrying more missing age. So no strong patient-mix difference is detected on recorded varying markers - but absence of a >10pp flag is weak evidence, and the earlier shock gap (Hypotensie -4.6pp) plus lower fever in Group A (SIRSCritTemperature -9.6pp) remain directional. (2) No process confound: antibiotics are administered by the same org:group in both A and B (~93-95% group 'A'). (3) Exposure is SUBSTANTIAL, not small: the 83-case pool supplies 40.1% of all simulated cases and 64.8% of affected draws - so pool representativeness genuinely matters and cannot be dismissed. (4) The concern was therefore tested operationally: excluding the 83 pathway entirely moves predicted C1 compliance by only 1.8pp (80.371% -> 78.53%). Case complexity/acuity beyond recorded flags is unobserved, so a fully clean bias test is impossible from this log. The binding defence does not rest on pool representativeness: every candidate antibiotics time is CAPPED AT THE BASELINE (delay only removed, never added), bounding optimism independently of pool composition."
+      }
+    }
+  },
+  "baseline_compliance_1h": 34.5,
+  "baseline_compliance_3h": 72.3,
+  "baseline_median_tta_h": 1.883,
+  "fidelity_cfld": 0.0521,
+  "fidelity_cycletime_distance": 0.1356,
+  "fidelity_gate_passed": true,
+  "tool_versions": {
+    "python": "3.9.23",
+    "pm4py": "2.7.19.1",
+    "scipy": "1.13.1",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "matplotlib": "3.9.4",
+    "PyYAML": "6.0.3",
+    "prosimos": "not used (control-flow-first DES built in-repo; see Phase III)"
+  },
+  "run_config": {
+    "scope": "ER-core (6 activities)",
+    "train_test_split_frac": 0.3,
+    "fidelity_split_seeds": [
+      1,
+      7,
+      13,
+      42,
+      99,
+      123,
+      777,
+      2024
+    ],
+    "fidelity_replications_per_split": 3,
+    "candidate_eval_n_per_rep": 1000,
+    "candidate_eval_replications": 20,
+    "candidate_eval_seeds": [
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507,
+      508,
+      509,
+      510,
+      511,
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519
+    ]
+  },
+  "report": {
+    "figures": {
+      "fig5_tta": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig5_tta_distribution.png",
+      "fig6_2_bottlenecks": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_2_bottlenecks.png",
+      "fig6_3_candidate": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_3_candidate_structure.png",
+      "fig6_4_simulation": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_4_simulation_results.png",
+      "fig6_5_fidelity": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/figures/fig6_5_fidelity.png"
+    },
+    "placeholder_map_md": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/placeholder_map.md",
+    "placeholder_map_json": "/Users/mohamed-altaweel/Masters/imp/sepsis-ipa-pipeline/outputs/placeholder_map.json",
+    "n_placeholders": 10
+  }
+}

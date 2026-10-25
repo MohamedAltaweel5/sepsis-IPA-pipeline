@@ -1,0 +1,96 @@
+# Surviving Sepsis Campaign (SSC) 2021 benchmark instantiation.
+#
+# Source: Evans et al., "Surviving Sepsis Campaign: International Guidelines for
+# Management of Sepsis and Septic Shock 2021," Intensive Care Med. 47(11):1181-1247,
+# 2021, DOI 10.1007/s00134-021-06506-y  (spec ref [28]).
+#
+# This is an EXTERNAL standard. Diagnosis (Phase II) measures the observed log
+# against these targets and NEVER against the process's own historical average
+# (hard constraint C2). Nothing here is learned or fitted (C1).
+#
+# The antibiotic timing rule is conditional (SSC Fig. 1):
+#   - shock present/probable                  -> antibiotics <= 1 h (Strong)
+#   - shock absent, sepsis probable/confirmed -> antibiotics <= 1 h (Strong)
+#   - shock absent, sepsis only *possible*    -> assess, then <= 3 h (Weak)
+# Per spec 7.3 we apply the 1-hour target UNIFORMLY (declared simplification);
+# this OVERSTATES deviation for the possible-sepsis-without-shock subgroup, so the
+# reported compliance is a LOWER BOUND. See `cohort_note` below.
+
+meta:
+  standard: "Surviving Sepsis Campaign 2021"
+  citation: "Evans et al., Intensive Care Med. 47(11):1181-1247, 2021"
+  doi: "10.1007/s00134-021-06506-y"
+  reference_event: "ER Registration"
+
+  # EXPLICIT ASSUMPTION - carry this into the thesis limitations, not just the code.
+  reference_event_assumption: >
+    SSC starts the clock at RECOGNITION of sepsis. The log does not record
+    recognition, so ER Registration is used as a proxy. Registration necessarily
+    precedes recognition, so measured intervals are INFLATED relative to the
+    guideline's intent and reported compliance is conservative. This is an
+    assumption forced by the data, not a modelling choice.
+
+  cohort_note: >
+    1-hour antibiotic target applied uniformly. Faithful stratification would need
+    a shock cohort, but Hypotensie=true holds in only 54/1050 cases (5.1%) - too
+    small to discover/simulate. InfectionSuspected=true in 848 (80.8%) and
+    SIRSCriteria2OrMore=true in 853 (81.2%), so most of the log plausibly falls
+    under the 1-hour rule anyway. Uniform 1 h => reported compliance is a LOWER BOUND.
+
+# Governed provisions only. Provisions with no corresponding log activity
+# (blood cultures, vasopressors) are intentionally absent: they CANNOT be diagnosed.
+provisions:
+  - id: antibiotics_1h
+    ssc_provision: "Antimicrobials within 1 h of recognition"
+    activity: "IV Antibiotics"
+    metric: interval_from_reference    # hours from reference_event to first occurrence
+    target_hours: 1.0
+    strength: Strong                   # weight multiplier applied to deviations
+    weight: 1.0
+    note: >
+      Strongest recommendation in the instantiated set; delay in antimicrobial
+      administration is associated with increased mortality [28].
+
+  - id: fluids_3h
+    ssc_provision: ">= 30 mL/kg crystalloid within 3 h"
+    activity: "IV Liquid"
+    metric: interval_from_reference
+    target_hours: 3.0
+    strength: Weak
+    weight: 0.5
+    note: >
+      Weak recommendation, low-quality evidence. IV Liquid records NO volume, so
+      the 30 mL/kg criterion is UNVERIFIABLE; assess TIMING ONLY.
+
+  - id: lactate_measured
+    ssc_provision: "Measure blood lactate"
+    activity: "LacticAcid"
+    metric: occurrence                 # NO time target in the 2021 guideline
+    target_hours: null
+    strength: Weak
+    weight: 0.5
+    note: >
+      Weak recommendation, low-quality evidence. The '1-hour lactate' idea comes
+      from the Hour-1 bundle, which the 2021 guideline references but does not
+      itself issue. Diagnose OCCURRENCE, not timing.
+
+  - id: sepsis_screening
+    ssc_provision: "Sepsis screening performed"
+    activity: "ER Sepsis Triage"
+    metric: occurrence
+    target_hours: null
+    strength: Strong
+    weight: 1.0
+    note: >
+      Diagnosed on occurrence. Coverage is 1049/1050 (99.9%), so this provision
+      will yield near-zero deviation and contributes little diagnostic signal;
+      retained for completeness of the instantiated benchmark.
+
+# Provisions the log cannot support -> explicitly NOT diagnosed (documented, not silent).
+undiagnosable:
+  - provision: "Blood cultures before antimicrobials"
+    reason: "No corresponding activity in the log."
+  - provision: "Vasopressors for MAP >= 65 mmHg"
+    reason: "No corresponding activity in the log."
+  - provision: "30 mL/kg crystalloid volume adequacy"
+    reason: "IV Liquid records no volume; only timing is observable."

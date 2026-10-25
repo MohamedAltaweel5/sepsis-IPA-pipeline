@@ -1,0 +1,9 @@
+# Python 3.9.23
+# Direct dependencies, pinned to the versions installed in the environment that produced outputs/.
+pm4py==2.7.19.1
+numpy==2.0.2
+scipy==1.13.1
+pandas==2.3.3
+matplotlib==3.9.4
+PyYAML==6.0.3
+pytest==8.4.2

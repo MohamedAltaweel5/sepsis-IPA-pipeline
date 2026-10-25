@@ -1,0 +1,75 @@
+# Goal weights for Phase II Step 4 (goal-based scoring).
+#
+# The four dimensions are the Devil's Quadrangle from the same redesign-heuristics
+# catalogue used for candidate generation (Reijers & Limam Mansar, Omega 33(4):283-306,
+# 2005, DOI 10.1016/j.omega.2004.04.012; spec ref [33]). Adopting the catalogue's
+# evaluative dimensions alongside its heuristics keeps BOTH the moves and the criteria
+# external to this research.
+#
+# PROVENANCE - READ THIS FIRST.
+# These weights were derived by the researcher from the priorities expressed in the
+# published guideline (SSC 2021, ref [28]); they were NOT elicited from clinicians or
+# hospital management. No interviews were conducted, consistent with the study's ethics
+# position. In deployment the framework specifies that the domain expert supplies these
+# weights through the Phase I interface. Their researcher-derivation is a limitation of
+# the DEMONSTRATION, not of the framework. State this in the thesis limitations.
+#
+# DERIVATION.
+# SSC 2021's Strong recommendations in the instantiated benchmark are timing-based
+# (antimicrobials within 1 h; screening performed). Its cost- and flexibility-related
+# considerations are absent from the graded recommendations entirely. Weighting time
+# dominantly is therefore a reading of the standard's own stated priorities rather than
+# a researcher preference. Quality is retained at meaningful weight because guideline
+# conformance is itself a quality property. Cost and flexibility are retained at low
+# but non-zero weight so that a candidate which achieves a marginal time gain at gross
+# cost or rigidity is still penalised rather than ignored.
+
+meta:
+  dimensions_source: "Devil's Quadrangle, Reijers & Limam Mansar 2005 (ref [33])"
+  derived_from: "priorities expressed in SSC 2021 graded recommendations (ref [28])"
+  elicitation: "researcher-derived; no clinician or management interviews conducted"
+  status: "requires expert validation before any real-world deployment"
+
+# Must sum to 1.0. Scoring is EX ANTE and INDICATIVE: it expresses the expected
+# direction and magnitude of a candidate's effect per the catalogue, and ORDERS
+# candidates for Phase III evaluation. It does NOT establish that any candidate works
+# - that determination belongs to Phase III alone (hard constraint P4/C6).
+weights:
+  time: 0.50
+  quality: 0.30
+  cost: 0.10
+  flexibility: 0.10
+
+interpretation:
+  time: >
+    Reduction in time-to-antibiotics and in emergency-phase duration. Dominant because
+    every Strong timing recommendation in the instantiated benchmark concerns it.
+  quality: >
+    Conformance with the guideline's provisions, weighted by recommendation strength.
+    Distinct from time: a redesign can shorten duration while reducing conformance.
+  cost: >
+    Additional resource demand implied by the redesign (e.g. extra parallel capacity).
+    Low weight: the benchmark expresses no cost provisions.
+  flexibility: >
+    Ability of the redesigned process to accommodate case variation. Low weight, but
+    non-zero so that heavily rigid redesigns are penalised.
+
+# Sensitivity analysis - REQUIRED, not optional.
+# Because these weights are researcher-derived, the study must show that its candidate
+# ranking is not an artefact of one arbitrary weighting. Re-run Phase II scoring under
+# each alternative below and report whether the ranking changes. If the top candidate
+# is stable across all of them, the weighting choice is not load-bearing and the
+# limitation is materially reduced.
+sensitivity_profiles:
+  - id: time_only
+    weights: {time: 1.00, quality: 0.00, cost: 0.00, flexibility: 0.00}
+    note: "Pure timing view - the most aggressive reading of the guideline."
+  - id: balanced
+    weights: {time: 0.25, quality: 0.25, cost: 0.25, flexibility: 0.25}
+    note: "Neutral view; no dimension privileged."
+  - id: quality_led
+    weights: {time: 0.30, quality: 0.50, cost: 0.10, flexibility: 0.10}
+    note: "Conformance privileged over speed."
+  - id: cost_constrained
+    weights: {time: 0.40, quality: 0.25, cost: 0.30, flexibility: 0.05}
+    note: "Resource-constrained hospital view."

@@ -1,0 +1,31 @@
+# --- Raw event log: distributed by 4TU.ResearchData under its own terms. ----------
+# Not redistributed here; obtain it via the DOI in README.md and place it in data/.
+data/
+*.xes
+*.xes.gz
+
+# --- Python caches / virtual environments -----------------------------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# --- IDE / editor folders -----------------------------------------------------------
+.idea/
+.vscode/
+
+# --- OS files -----------------------------------------------------------------------
+.DS_Store
+
+# --- Not shared in this repository ----------------------------------------------------
+# Thesis manuscript (unpublished) and Word lock files
+Thesis_*.docx
+Thesis_*.pdf
+~$*.docx
+# Per-phase working notes (superseded by results.json / DEVIATIONS.md)
+summaries/
+# Orphaned output: not produced by the current pipeline (predates the final run)
+outputs/comparison_results.json

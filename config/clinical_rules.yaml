@@ -1,0 +1,83 @@
+# Clinical / domain constraint rules for Phase II Step 3 (constraint filtering).
+#
+# PROVENANCE - READ THIS FIRST.
+# These rules were derived by the researcher from the published guideline
+# (Evans et al., SSC 2021, DOI 10.1007/s00134-021-06506-y; spec ref [28]) and from
+# the care sequence it describes. They were NOT elicited from practising clinicians:
+# no clinician interviews were conducted, consistent with the ethics position of the
+# study (no human subjects, no patient or staff contact).
+#
+# In deployment the framework specifies that these rules are supplied by the domain
+# expert through the Phase I human-interpretable view. Their researcher-derivation
+# here is a limitation of the DEMONSTRATION, not of the framework: it affects which
+# candidates this study evaluates, not whether the mechanism works. State this in
+# the thesis limitations.
+#
+# DESIGN WARNING - KEEP THIS SET MINIMAL.
+# Every rule removes candidates from consideration. Over-constraining will filter out
+# the very redesigns Phase II exists to find, and the pipeline will report "no
+# permissible candidates" - a null result caused by configuration, not by the data.
+# Each rule below must be justifiable from [28] or from an explicit clinical
+# precondition. Rules that merely encode current practice are NOT constraints: current
+# practice is what the framework is allowed to propose changing.
+
+meta:
+  derived_from: "Evans et al., Surviving Sepsis Campaign 2021 (ref [28])"
+  elicitation: "researcher-derived; no clinician interviews conducted"
+  status: "requires expert validation before any real-world deployment"
+
+# Hard orderings. A candidate redesign violating any of these is DISCARDED,
+# and the violated rule id is recorded against the rejection.
+rules:
+  - id: registration_first
+    type: precedence
+    before: "ER Registration"
+    after: ["ER Triage", "ER Sepsis Triage", "LacticAcid", "IV Liquid", "IV Antibiotics"]
+    rationale: >
+      Administrative precondition. A patient cannot be assessed or treated within the
+      recorded process before entering it. Structural, not clinical.
+
+  - id: triage_before_treatment
+    type: precedence
+    before: "ER Triage"
+    after: ["IV Liquid", "IV Antibiotics"]
+    rationale: >
+      Assessment precedes intervention. SSC 2021 frames sepsis care as beginning with
+      recognition and assessment; administering treatment before any triage has
+      occurred is not a defensible redesign.
+
+  - id: screening_before_antibiotics
+    type: precedence
+    before: "ER Sepsis Triage"
+    after: ["IV Antibiotics"]
+    rationale: >
+      SSC 2021 recommends screening for sepsis in acutely ill patients (Strong
+      recommendation). Antimicrobial administration presupposes that sepsis has been
+      recognised; a redesign that treats before screening inverts the guideline's own
+      sequence.
+    configurable: true
+    configurable_note: >
+      Set to false ONLY if the study intends to evaluate screening-bypass redesigns
+      (e.g. empirical treatment on triage suspicion). Default true.
+
+# NOT rules - documented deliberately so they are not added by mistake.
+# Encoding any of these would destroy the candidates Phase II is meant to generate.
+explicitly_not_constrained:
+  - pattern: "LacticAcid before IV Antibiotics"
+    reason: >
+      SSC 2021 does NOT require lactate measurement before antimicrobials. Lactate is
+      a Weak recommendation with no time target and is not a precondition for
+      treatment. The observed ordering (lactate preceding antibiotics in the dominant
+      variant, 289 cases) is current practice, not a clinical requirement - and is
+      precisely the resequencing candidate Phase II should be free to propose.
+
+  - pattern: "IV Liquid before IV Antibiotics"
+    reason: >
+      SSC 2021 specifies both within their respective windows but does not mandate
+      fluids first. Their relative order is a redesign variable, not a constraint.
+
+  - pattern: "Blood cultures before antimicrobials"
+    reason: >
+      This IS an SSC provision, but no blood-culture activity exists in the log. It
+      cannot be encoded, checked, or violated here. Recorded so its absence is a
+      documented data limitation rather than an oversight.
