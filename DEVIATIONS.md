@@ -13,8 +13,9 @@ each entry: *Spec said → We did → Why*.
 
 ## D2. Timing parameterisation — block-bootstrap, not independent per-edge sampling
 - **Spec (§10.1):** "Fit distributions (or use empirical) to the observed time between consecutive events" per edge; branching from variant frequencies.
-- **Built:** the *accepted* model samples a variant, then reuses a **real per-variant interval vector** (block-bootstrap), preserving within-case timing correlation. Independent per-edge sampling was tried first and **rejected**.
-- **Why:** independent per-edge bootstrap broke within-case correlation and pooled an edge across fast/slow variants, overestimating cycle time (single-split relative EMD ~0.22–0.30 > 0.20 gate). Block-bootstrap is a *more faithful* instrument, not a threshold relaxation. Logged in `phase3.stage1_fidelity.baseline_model_provenance` (2 variants tried).
+- **Built:** the *adopted* model samples a variant, then reuses a **real per-variant interval vector** (block-bootstrap, `mode="block"`). The independent per-edge sampler (`mode="edge"`) is kept and re-evaluated under the same procedure for comparison (`phase3.timing_model_comparison`).
+- **History:** the per-edge sampler was first assessed on a single 70/30 split (seed 42), where it exceeded the cycle-time threshold (0.253). Under the final 8-split × 3-replication procedure both samplers pass on the mean (per-edge 0.168, block 0.136; control flow 0.052 for both) and both fail seed 42, the least dispersed test split (cycle-time SD 1.54 h vs 2.28 h on average).
+- **Why block was adopted:** its cycle-time distribution is closer to the held-out data. Per-edge places too little mass near the median and too much in the upper body (p50 0.29 h low, p90 0.28 h high; block 0.15 h low, 0.01 h high). It does **not** overestimate the mean on average (both fall slightly below it). Within-case correlation of consecutive intervals in the real log is weak (pooled Spearman ρ ≈ −0.11), so loss of correlation is not the demonstrated mechanism; the edge-pooling across fast/slow variants is.
 
 ## D3. Fidelity procedure — repeated 8-split hold-out averaged, not a single split
 - **Spec (§10.1):** "Hold out a portion of the real log (e.g. train/test split)."
@@ -23,25 +24,25 @@ each entry: *Spec said → We did → Why*.
 
 ## D4. Fidelity measures — n-gram (bigram) TV distance as the CFLD proxy
 - **Spec (§10.1):** Control-Flow Log Distance (CFLD) / n-gram distance, per Chapela-Campa 2025 (ref [19]).
-- **Built:** total-variation distance between normalised directly-follows (bigram) frequency vectors; cycle-time EMD (Wasserstein); TTA EMD.
-- **Why:** the full Chapela-Campa CFLD uses optimal trace alignment; a bigram-distribution TV distance is a transparent, defensible proxy computable with `scipy`. Labelled as an n-gram control-flow distance, not the exact CFLD. Cycle-time EMD (the measure that matters most for a timing thesis) is exact.
+- **Built:** total-variation distance between normalised directly-follows (bigram) frequency vectors, 0.5·Σ|p−q|; cycle-time EMD (Wasserstein) relative to the held-out mean cycle time; TTA EMD.
+- **Relation to the reference:** this equals Chapela-Campa's n-gram distance (NGD) with n = 2, except that NGD normalises by the n-gram total of both logs and pads each case with start/end symbols; values are therefore close to, but not identical with, published NGD values. Not the exact CFLD.
 
-## D5. Gate thresholds — pre-registered concrete values
+## D5. Gate thresholds — study-specific acceptance values
 - **Spec (§10.1):** "define an adequacy threshold *before* running (document the rationale)."
-- **Built:** `control_flow_tv_max = 0.25`, `cycle_time_relative_emd_max = 0.20` (relative to mean real cycle time). Pre-registered in `fidelity.THRESHOLDS`.
-- **Why:** the spec leaves the numbers to us; these are documented in code with rationale (a control-flow-first, no-contention model should reproduce empirical control flow closely and cycle time within a modest fraction of scale).
+- **Built:** `control_flow_tv_max = 0.25`, `cycle_time_relative_emd_max = 0.20` (relative to mean held-out cycle time), in `fidelity.THRESHOLDS`.
+- **Deviation:** the thresholds were fixed during model development, after preliminary fidelity runs had been inspected, not before any run. They are not taken from the literature (Chapela-Campa et al. prescribe no acceptance levels). They therefore record the correspondence judged adequate for this study, not an independent test. The full per-split distribution is reported so a stricter criterion can be applied: the adopted model passes any cycle-time threshold above 0.136 on the mean and at or above 0.202 on every split, and would fail 0.10.
 
-## D5b. Composite risk reduction — multi-provision, FIXED denominator, PATH-LOCAL damage
+## D5b. Composite risk reduction — multi-provision, FIXED denominator, PATH-LOCAL damage, PAIRED baseline
 - **Spec (§10.2):** "Composite pre-implementation risk-reduction estimate — define transparently."
-- **Built:** `risk = Σ_all-governed-provisions weight · noncompliant_fraction`; reduction = `100·(base_risk − cand_risk)/base_risk` with **base_risk FIXED** = 0.856 (antibiotics 1.0 + fluids 0.5 + lactate 0.5 + screening 1.0) for every candidate, so magnitudes are comparable (a candidate is not penalised in the denominator for touching more provisions). Damage to a provision is **path-local**: eliminating LacticAcid removes it from the 649 affected cases only, leaving 211 still measuring it → lactate 81.9% → 20.1% (not global 0%).
-- **Results:** C1/C2 = **53.59%**, C3 = **52.97%**, C4 = **17.49%**. Stored as `risk_components` (with `damaged_detail`) per candidate.
-- **Why:** (i) an antibiotics-only metric would credit C4's timing gain and hide its conformance loss, contradicting Devil's Quadrangle `quality: −1`; (ii) a per-candidate denominator made "70%" and "6.75%" fractions of different pools; (iii) a global-0% lactate penalty overstated C4's loss. All three corrected. Earlier drafts reported antibiotics-only (C4=70%) then per-candidate-denominator + global-0% (C4=6.75%); the final is fixed-denominator + path-local (C4=17.49%).
-- **Note (off-by-one reconciled):** the affected-set count uses the STRICT-timestamp test (lactate strictly before antibiotics) everywhere — detection, generation, and Phase III evaluation all report 649 (and 642 for the InfectionSuspected cohort). 2 simultaneous-timestamp cases are excluded (a simultaneous lactate does not delay antibiotics). An earlier sequence-position test gave 650/643.
+- **Built:** `risk = Σ_all-governed-provisions weight · noncompliant_fraction`; reduction = `100·(base_risk − cand_risk)/base_risk` with **base_risk FIXED** across candidates (weights: antibiotics 1.0, fluids 0.5, lactate 0.5, screening 1.0). The improved target (antibiotics within 1 h) enters both base and candidate risk from the **same paired simulation** (simulated baseline ≈ 34.3%), so the reduction is not confounded by the simulated-vs-observed baseline gap; base_risk ≈ 0.858. Other provisions enter at observed values. Damage is **path-local**: eliminating LacticAcid removes it from the 649 affected cases only, leaving 211 still measuring it → lactate 81.9% → 20.1% (not global 0%).
+- **Results:** see `phase3.stage2_evaluation.candidates[*].predicted_risk_reduction` (expected ≈ C1/C2 53.7%, C3 53.1%, C4 17.7%).
+- **Why:** (i) an antibiotics-only metric would credit C4's timing gain and hide its conformance loss; (ii) a per-candidate denominator made reductions fractions of different pools; (iii) a global-0% lactate penalty overstated C4's loss; (iv) an earlier version took the antibiotics baseline from the observed log (34.5%) while candidates were paired against the simulated baseline, mixing the redesign effect with the simulation–observation gap (base_risk 0.856; C1/C2 53.59%, C3 52.97%, C4 17.49%). All corrected.
+- **Note (off-by-one reconciled):** the affected-set count uses the STRICT-timestamp test (lactate strictly before antibiotics) everywhere — detection, generation, and Phase III evaluation all report 649 (and 642 for the InfectionSuspected cohort). 2 simultaneous-timestamp cases are excluded. An earlier sequence-position test gave 650/643.
 
 ## D6. `binding_constraint_shift` — renamed from the spec's "emergent effect / bottleneck displacement"
 - **Spec (§10.2, §13.1):** check whether relieving one bottleneck "displaces load to another"; per-candidate `emergent_effect_note`.
 - **Built:** a structured `binding_constraint_shift` key (distribution of which activity now ends the case) **plus** an `emergent_effect_note` string alias for §13.1 completeness.
-- **Why:** there is **no capacity/resource model** (C4, single resource group), so nothing is "displaced" in a queueing sense. What is measured is a **control-flow critical-path shift**. The original name over-claims a mechanism that does not exist here; the rename states exactly what is computed.
+- **Why:** there is **no capacity/resource model**: the log records 25 organisational groups (plus "?" on 294 events) but no individual resources and a single timestamp per event, so neither a group's service time nor its workload can be estimated and any capacity parameter would be assumed. Nothing is therefore "displaced" in a queueing sense. What is measured is a **control-flow critical-path shift**. The original name over-claims a mechanism that does not exist here; the rename states exactly what is computed.
 
 ## D7. Candidate transforms grounded in observed orderings (not abstract model edits)
 - **Spec (§9.2, §10.2):** emit candidates as concrete model modifications (new Petri net/BPMN each) and simulate them.
@@ -50,7 +51,7 @@ each entry: *Spec said → We did → Why*.
 
 ## D8. Triage candidate (C3) — functional attribute split, not contention relief
 - **Spec (§9.2 table):** Triage = "split into distinct paths by case characteristic."
-- **Built:** two interpretations were considered. The **contention-relief** reading is *inapplicable* (C4: one resource group, `different_resources_total=1` — no queue to relieve). The delivered C3 is a **functional attribute split** on `InfectionSuspected` that fast-tracks that cohort's antibiotics decoupling.
+- **Built:** two interpretations were considered. The **contention-relief** reading is *inapplicable*: the simulator has no capacity model (single timestamp per event; `different_resources_total=1`, groups only), so there is no queue to relieve. The delivered C3 is a **functional attribute split** on `InfectionSuspected` that fast-tracks that cohort's antibiotics decoupling.
 - **Why:** the contention reading would predict a null by construction and misrepresent the mechanism. The functional reading is evaluable under the control-flow model and demonstrates attribute-based differentiation. (An earlier contention-framed C3 predicted no change; it was replaced.)
 
 ## D9. Task elimination (C4) generated despite the precondition being clinically weak

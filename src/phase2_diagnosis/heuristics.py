@@ -20,30 +20,35 @@ from ..prep.load import _as_bool
 
 # The catalogue subset in play, with the Devil's Quadrangle directional effects
 # documented by Reijers & Limam Mansar (used later by score.py). Effects are the
-# catalogue's qualitative signs, NOT fitted values: +1 improves, -1 worsens, 0 neutral.
+# catalogue's qualitative signs, NOT fitted values: +1 improves, -1 worsens, 0 neutral
+# (0 also where the catalogue states no effect on that dimension).
+# Coded from the catalogue text (Omega 33(4), 2005): resequencing sec. 4.3.1
+# (time +, cost +); parallelism sec. 4.3.3 (time +, cost -, quality -, flexibility -);
+# triage sec. 4.2.4 (time +, quality +, cost +, flexibility -); task elimination
+# sec. 4.2.2 (time +, cost +, quality -; flexibility not stated).
 CATALOGUE = {
     "resequencing": {
         "name": "Resequencing (task order optimisation)",
         "precondition": "Two governed activities occur in an order that delays the "
                         "strong-target one, with no dependency forcing it.",
-        "effects": {"time": +1, "cost": 0, "quality": 0, "flexibility": 0},
+        "effects": {"time": +1, "cost": +1, "quality": 0, "flexibility": 0},
     },
     "parallelism": {
         "name": "Parallelism (concurrent execution)",
         "precondition": "Two activities are sequential but independent and their "
                         "sequence adds delay.",
-        "effects": {"time": +1, "cost": -1, "quality": 0, "flexibility": -1},
+        "effects": {"time": +1, "cost": -1, "quality": -1, "flexibility": -1},
     },
     "task_elimination": {
         "name": "Task elimination",
         "precondition": "An activity on the path adds no value to the governed "
                         "outcome and adds delay.",
-        "effects": {"time": +1, "cost": +1, "quality": -1, "flexibility": +1},
+        "effects": {"time": +1, "cost": +1, "quality": -1, "flexibility": 0},
     },
     "triage": {
         "name": "Triage (case differentiation)",
         "precondition": "Cases of differing character follow one undifferentiated path.",
-        "effects": {"time": +1, "cost": -1, "quality": +1, "flexibility": +1},
+        "effects": {"time": +1, "cost": +1, "quality": +1, "flexibility": -1},
     },
 }
 

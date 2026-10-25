@@ -14,7 +14,7 @@ measures (ref [19]):
   * Time-to-antibiotics distribution distance - EMD between the benchmark metric's
     distributions (the thesis's governed quantity).
 
-GATE (pre-registered BEFORE running - see THRESHOLDS): the baseline is an adequate
+GATE (acceptance thresholds - see THRESHOLDS and DEVIATIONS D5): the baseline is an adequate
 instrument iff control flow and cycle time are both within tolerance. If not, STOP:
 report "not validly modellable"; do NOT evaluate candidates (C5). An honest null
 result is acceptable.
@@ -26,8 +26,10 @@ from scipy.stats import wasserstein_distance
 
 from .build_baseline import trace_cycle_time_h, trace_tta_h
 
-# --- Pre-registered adequacy thresholds (set before observing results) ------
-# Rationale: a control-flow-first model with no resource contention (C4) should
+# --- Acceptance thresholds ----------------------------------------------------
+# Not taken from the literature: the quality framework the measures draw on
+# (Chapela-Campa et al., Inf. Syst. 127, 2025) prescribes no acceptance levels.
+# When and how they were set is recorded in DEVIATIONS D5. Rationale: a control-flow-first model with no resource contention (C4) should
 # reproduce the empirical control flow closely (variants sampled from data) and
 # the cycle-time distribution to within a modest fraction of its own scale. We
 # require the relative cycle-time EMD <= 20% of the mean real cycle time and the
@@ -78,6 +80,14 @@ def measure_fidelity(sim_traces, real_traces) -> dict:
         "tta_emd_h": round(tta_emd, 4),
         "sim_cycle_mean_h": round(float(sim_ct.mean()), 3),
         "real_cycle_mean_h": round(float(real_ct.mean()), 3),
+        "sim_cycle_sd_h": round(float(sim_ct.std()), 3),
+        "real_cycle_sd_h": round(float(real_ct.std()), 3),
+        "sim_cycle_p50_h": round(float(np.percentile(sim_ct, 50)), 3),
+        "real_cycle_p50_h": round(float(np.percentile(real_ct, 50)), 3),
+        "sim_cycle_p90_h": round(float(np.percentile(sim_ct, 90)), 3),
+        "real_cycle_p90_h": round(float(np.percentile(real_ct, 90)), 3),
+        "sim_cycle_p99_h": round(float(np.percentile(sim_ct, 99)), 3),
+        "real_cycle_p99_h": round(float(np.percentile(real_ct, 99)), 3),
         "sim_tta_median_h": round(float(np.median(sim_tta)), 3),
         "real_tta_median_h": round(float(np.median(real_tta)), 3),
     }
@@ -101,12 +111,12 @@ def evaluate_gate(fidelity: dict) -> dict:
     }
 
 
-def run_fidelity(model, real_test_traces, n_replications=5, base_seed=100) -> dict:
+def run_fidelity(model, real_test_traces, n_replications=5, base_seed=100, mode="block") -> dict:
     """Simulate several replications, average fidelity, apply the gate."""
     n = len(real_test_traces)
     reps = []
     for r in range(n_replications):
-        sim = _simulate_ref(model, n, base_seed + r)
+        sim = _simulate_ref(model, n, base_seed + r, mode)
         reps.append(measure_fidelity(sim, real_test_traces))
     keys = reps[0].keys()
     mean_fid = {k: round(float(np.mean([rep[k] for rep in reps])), 4) for k in keys}
@@ -120,14 +130,14 @@ def run_fidelity(model, real_test_traces, n_replications=5, base_seed=100) -> di
     }
 
 
-def _simulate_ref(model, n, seed):
+def _simulate_ref(model, n, seed, mode="block"):
     # imported lazily to avoid a cycle at module load
     from .build_baseline import simulate
-    return simulate(model, n, seed)
+    return simulate(model, n, seed, mode=mode)
 
 
 def run_repeated_fidelity(scoped_df, k_splits=8, test_frac=0.30,
-                          n_replications=3, split_seeds=None) -> dict:
+                          n_replications=3, split_seeds=None, mode="block") -> dict:
     """Repeated hold-out fidelity (the gate procedure).
 
     A single 70/30 split is high-variance because ER-core cycle time is
@@ -144,8 +154,10 @@ def run_repeated_fidelity(scoped_df, k_splits=8, test_frac=0.30,
     for sd in split_seeds:
         train, test = train_test_split(scoped_df, test_frac=test_frac, seed=sd)
         model = fit_model(train)
-        fr = run_fidelity(model, real_traces(test), n_replications, base_seed=100 + sd)
+        fr = run_fidelity(model, real_traces(test), n_replications, base_seed=100 + sd,
+                          mode=mode)
         fr["split_seed"] = sd
+        fr["test_cycle_sd_h"] = fr["fidelity_mean"]["real_cycle_sd_h"]
         per_split.append(fr)
 
     keys = per_split[0]["fidelity_mean"].keys()
@@ -161,6 +173,7 @@ def run_repeated_fidelity(scoped_df, k_splits=8, test_frac=0.30,
         {"seed": p["split_seed"],
          "cycle_time_relative_emd": p["fidelity_mean"]["cycle_time_relative_emd"],
          "control_flow_tv_distance": p["fidelity_mean"]["control_flow_tv_distance"],
+         "test_cycle_sd_h": p["test_cycle_sd_h"],
          "gate_passed": p["gate"]["gate_passed"]}
         for p in per_split
     ]
@@ -172,6 +185,7 @@ def run_repeated_fidelity(scoped_df, k_splits=8, test_frac=0.30,
 
     return {
         "procedure": "repeated hold-out (k splits x replications), gated on mean",
+        "timing_model": mode,
         "k_splits": len(split_seeds),
         "split_seeds": split_seeds,
         "n_replications_per_split": n_replications,
@@ -188,18 +202,20 @@ def run_repeated_fidelity(scoped_df, k_splits=8, test_frac=0.30,
 # Provenance of how the baseline reached an adequate instrument (spec: log how many
 # model variants were tried before the gate passed - a reproducibility record).
 BASELINE_MODEL_PROVENANCE = {
-    "n_model_variants_tried_before_gate_passed": 2,
+    "n_timing_models_evaluated": 2,
     "variants": [
-        {"variant": 1, "sampler": "independent per-edge interval bootstrap",
-         "outcome": "REJECTED",
-         "reason": "Broke within-case timing correlation and pooled an edge across "
-                   "fast/slow variants; overestimated cycle time (single-split "
-                   "cycle-time relative EMD ~0.22-0.30 > 0.20 gate)."},
-        {"variant": 2, "sampler": "block-bootstrap of real per-variant interval vectors",
-         "outcome": "ACCEPTED",
-         "reason": "Preserves joint within-case timing; cycle-time relative EMD 0.136 "
-                   "(mean over 8 splits) <= 0.20. A more faithful instrument, not a "
-                   "threshold change."},
+        {"variant": 1, "sampler": "independent per-edge interval bootstrap (mode='edge')",
+         "outcome": "evaluated, not adopted",
+         "reason": ("Initially assessed on a single 70/30 split (seed 42), where it exceeded "
+                    "the cycle-time threshold (0.253). Under the final 8-split procedure it "
+                    "passes on the mean (see phase3.timing_model_comparison) but places too "
+                    "little mass near the median and too much in the upper body of the "
+                    "cycle-time distribution.")},
+        {"variant": 2, "sampler": "block-bootstrap of real per-variant interval vectors (mode='block')",
+         "outcome": "ADOPTED",
+         "reason": ("Closer cycle-time distribution shape (lower relative EMD under the same "
+                    "splits and seeds). Both models fail seed 42, the least dispersed test "
+                    "split; the gate is applied to the mean of 8 splits for that reason.")},
     ],
     "procedure_fix": ("Single 70/30 split was high-variance (heavy-tailed cycle time, "
                       "max ~27 h); moved to repeated 8-split averaging, gated on the "

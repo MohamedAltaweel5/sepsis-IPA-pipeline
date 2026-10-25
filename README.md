@@ -30,4 +30,13 @@ pytest tests                # checkpoint tests
 ```
 
 All reported numbers are in `outputs/results.json`; deviations from the original design are
-documented in `DEVIATIONS.md`.
+documented in `DEVIATIONS.md`. All Phase III outputs are model-predicted, not empirically
+confirmed.
+
+## Author
+
+Mohamed Mostafa AbdAlnabi — Software Engineering Department, Helwan University, Egypt.
+
+This repository accompanies the article *An Approach to Minimize Implementation Risks of New
+Business Processes Using Intelligent Process Automation* (submitted to *Modelling*, MDPI) and
+the MSc thesis of the same title. Citation details will be added on publication.

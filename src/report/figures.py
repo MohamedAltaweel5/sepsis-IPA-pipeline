@@ -28,7 +28,7 @@ plt.rcParams.update({
     "axes.edgecolor": "black",
     "axes.grid": False,
     "figure.dpi": 150,
-    "savefig.dpi": 300,
+    "savefig.dpi": 600,   # MDPI: at least 600 dpi
     "savefig.bbox": "tight",
     "patch.edgecolor": "black",
     "hatch.linewidth": 0.6,
@@ -118,8 +118,9 @@ def fig_simulation_results(evaluation, path=FIGDIR / "fig6_4_simulation_results.
     ids = [c["candidate_id"].split("_")[0] for c in cands]
     base_comp = cands[0]["baseline_compliance_1h"]
     comp = [c["predicted_compliance_1h"] for c in cands]
-    tta_red = [c["transfer_gap"]["tta_reduction_pct"] for c in cands]
-    ep_red = [c["transfer_gap"]["scoped_cycle_time_reduction_pct"] for c in cands]
+    # Matched statistics (medians); means are in results.json and Table 13.
+    tta_red = [c["transfer_gap"]["tta_median_reduction_pct"] for c in cands]
+    ep_red = [c["transfer_gap"]["ct_median_reduction_pct"] for c in cands]
     x = np.arange(len(cands))
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.9, 2.6))
@@ -142,7 +143,7 @@ def fig_simulation_results(evaluation, path=FIGDIR / "fig6_4_simulation_results.
             linewidth=0.8, hatch="\\\\", label="Scoped cycle time")
     ax2.set_xticks(x); ax2.set_xticklabels(ids, fontsize=7)
     ax2.set_ylabel("Reduction vs baseline (%)"); ax2.set_ylim(0, 100)
-    ax2.set_title("(b) Transfer gap", fontsize=8.5)
+    ax2.set_title("(b) Transfer gap (medians)", fontsize=8.5)
     ax2.legend(fontsize=6.5, frameon=False, loc="upper right")
     fig.suptitle("Simulation results (model-predicted)", fontsize=9)
     fig.savefig(path); plt.close(fig)
